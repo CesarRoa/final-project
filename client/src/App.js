@@ -1,17 +1,23 @@
-import './App.css';
-import {useEffect} from "react"
+import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import GlobalStyles from "./GlobalStyles";
+import Home from "./Components/Home";
+import Header from "./Components/Header";
+import Signin from "./Components/Singin"
+import { useContext } from "react";
+import { UserContext } from "./Components/Context";
 
-function App() {
-  useEffect(()=>{
-    fetch("/hello")
-    .then(res => res.json())
-    .then(data => console.log(data.message))
-  }, [])
-
+const App = () => {
+  const {user} = useContext(UserContext)
   return (
-    <div className="App">
-      Budget-Yourself!
-    </div>
+    <Router>
+      <GlobalStyles/>
+      <Header/>
+      <div>
+        <Routes>
+          <Route path = "/" element = {!user? <Signin/> : <Home/>}/>
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
