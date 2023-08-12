@@ -1,0 +1,142 @@
+
+    [
+    {
+        "_id": 10001,
+        "user":{
+            "name":"Joe Doe",
+            "username": "joedoe00",
+            "email":"joedoe00@aol.com",
+            "phone": 5410231567,
+            "password":"Password123!@#",
+            "memberSince": "2023-06-09"
+        },
+        "basicInfo":{
+            "monthlyIncome": 3000,
+            "monthlyExpenses":{
+                "services":{
+                    "electricity": 50,
+                    "gas": 60,
+                    "phone": 30,
+                    "water":40,
+                    "internet": 30,
+                    "tv": 10,
+                    "carInsurance": 100,
+                    "otherBills":[]
+                },
+                "expenses":{
+                    "food": 250,
+                    "household": 1250,
+                    "transportation": 100,
+                    "education": 200,
+                    "entertainment": 50,
+                    "gas": 150,
+                    "otherExpenses":[]
+                }
+            },
+            "yearExpenses":{
+            "travel": 700,
+            "shopping": 500,
+            "leisure": 500,
+            "others":[]
+            }
+        },
+        "historical":
+        [
+            {
+                "year": 2023,
+                "month": "june",
+                "income": 3000,
+                "expenses":
+                {
+                    "services":320,
+                    "expenses":{
+                        "food": 250,
+                        "household": 1250,
+                        "transportation": 100,
+                        "education": 200,
+                        "entertainment": 50,
+                        "gas": 70
+                    }
+                }
+            },
+            {
+                "year": 2023,
+                "month": "july",
+                "income": 3000,
+                "expenses":
+                {
+                    "services":320,
+                    "expenses":{
+                        "food": 250,
+                        "household": 1250,
+                        "transportation": 100,
+                        "education": 200,
+                        "entertainment": 50,
+                        "gas": 70
+                    }
+                }
+            }
+        ]
+    },
+        {
+        "_id": 10002,
+        "user":{
+            "name":"Jane Doe",
+            "username": "janedoe00",
+            "email":"janedoe99@aol.com",
+            "phone": 48376513201,
+            "password":"Password123!@#",
+            "memberSince": "2023-07-06"
+        },
+        "basicInfo":{
+            "monthlyIncome": 5000,
+            "monthlyExpenses":{
+                "services":{
+                    "electricity": 50,
+                    "gas": 60,
+                    "phone": 30,
+                    "water":40,
+                    "internet": 30,
+                    "tv": 10,
+                    "carInsurance": 100,
+                    "otherBills":[]
+                },
+                "expenses":{
+                    "food": 250,
+                    "household": 1250,
+                    "transportation": 100,
+                    "education": 200,
+                    "entertainment": 50,
+                    "gas": 150,
+                    "otherExpenses":[]
+                }
+            },
+            "yearExpenses":{
+            "travel": 700,
+            "shopping": 500,
+            "leisure": 500,
+            "others":[]
+            }
+        },
+        "historical":
+        [
+            {
+                "year": 2023,
+                "month": "july",
+                "income": 3000,
+                "expenses":
+                {
+                    "services":320,
+                    "expenses":{
+                        "food": 250,
+                        "household": 1250,
+                        "transportation": 100,
+                        "education": 200,
+                        "entertainment": 50,
+                        "gas": 70
+                    }
+                }
+            }
+        ]
+    }
+]

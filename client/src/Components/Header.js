@@ -1,11 +1,22 @@
 import { styled } from "styled-components";
 import BYA from "../images/BYA.png"
+import { useNavigate } from "react-router-dom";
 const Header = () =>{
+    const navigate = useNavigate()
+    const handleClick = () =>{
+        navigate("/")
+    }
 return(
     <Div>
-        <Logo src={BYA} alt="logo"/>
+        <Logo 
+        src={BYA} 
+        alt="logo"
+        onClick={handleClick}
+        />
         <h1>Header</h1>
-        <button>Sign In</button>
+        <button
+        onClick={handleClick}
+        >Sign In</button>
     </Div>
 )
 };

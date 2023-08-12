@@ -5,6 +5,7 @@ import Header from "./Components/Header";
 import Signin from "./Components/Singin"
 import { useContext } from "react";
 import { UserContext } from "./Components/Context";
+import CreateAccount from "./Components/Login";
 
 const App = () => {
   const {user} = useContext(UserContext)
@@ -15,6 +16,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path = "/" element = {!user? <Signin/> : <Home/>}/>
+          <Route path = "/newAccount" element = {<CreateAccount/>}/>
         </Routes>
       </div>
     </Router>

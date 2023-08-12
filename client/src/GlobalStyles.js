@@ -38,6 +38,23 @@ time, mark, audio, video {
 h1{
     font-size: 4em;
 }
+span{
+	font-size: 0.8em;
+}
+label, input{
+	font-size: 1.5em;
+}
+button{
+	font-size: 1em;
+	border: none;
+	border-radius: 20px;
+	background-image: linear-gradient(to right, #5170ff, #ff66c4);
+	color: white;
+	width: 100px;
+	height: 40px;
+	&:hover{
+		color: black;}
+}
 
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {

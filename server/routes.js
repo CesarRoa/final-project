@@ -1,9 +1,12 @@
 const router = require("express").Router();
 
 const{
-    home
+    test,
+    signin
 }=require("./handlers");
 
-router.get("/hello", home);
+router.get("/api/test", test);
+router.get("/api/signin/:username",signin);
+
 
 module.exports = router;
