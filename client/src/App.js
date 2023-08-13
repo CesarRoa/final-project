@@ -6,6 +6,8 @@ import Signin from "./Components/Singin";
 import Historical from "./Components/Historical";
 import Table from "./Components/Table";
 import Footer from "./Components/Footer";
+import Registration from "./Components/Registration";
+import AddTag from "./Components/AddTag";
 import { useContext } from "react";
 import { UserContext } from "./Components/Context";
 import CreateAccount from "./Components/Login";
@@ -20,8 +22,10 @@ const App = () => {
         <Routes>
           <Route path = "/" element = {!user? <Signin/> : <Home user = {user}/>}/>
           <Route path = "/newAccount" element = {<CreateAccount/>}/>
-          <Route path="/:account/historical/"  element={<Historical />} />
-          <Route path="/:account/table/"  element={<Table />} />
+          <Route path="/:account/historical"  element={<Historical />} />
+          <Route path="/:account/table"  element={<Table />} />
+          <Route path="/:account/add"  element={<AddTag />} />
+          <Route path="/newAccount/:account/registration" element ={<Registration/>} />
         </Routes>
       </>
       <Footer/>

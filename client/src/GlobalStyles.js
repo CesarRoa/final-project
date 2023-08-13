@@ -41,8 +41,8 @@ h1{
 span{
 	font-size: 0.8em;
 }
-label, input{
-	font-size: 1.5em;
+label, input, p, select{
+	font-size: 2em;
 }
 button{
 	font-size: 1em;

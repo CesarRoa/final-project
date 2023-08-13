@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Profile from "./Profile"
 import Chart from "./Chart";
+import Search from "./Search";
 const Home = ({user}) =>{
     const data = user.data
     const profile = data.profile
@@ -13,10 +14,14 @@ const Home = ({user}) =>{
     const handleClickTable = ()=>{
         navigate(`/${profile.username}/table`)
     }
+    const handleClickAdd = ()=>{
+        navigate(`/${profile.username}/add`)
+    }
 return(
     <Div>
         <Div1>
-        <Profile data = {data}/>
+            <Profile data = {data}/>
+            <Search/>
         </Div1>
         <Div2>
             Calculator
@@ -24,11 +29,11 @@ return(
         <Div3>
         <button
         onClick={handleClickHitorical}
-        >Historical
+        >History
         </button>
         <button
-        onClick={handleClickTable}
-        >Table
+        onClick={handleClickAdd}
+        >Add Entry
         </button>
         </Div3>
         <Div4>
@@ -53,6 +58,9 @@ const Div1 = styled.div`
     grid-column: 1 / span 1;
     grid-row: 1 / span 2;
     border: blue solid 1px;
+    &>*{
+        margin-bottom: 25px ;
+    }
 `
 const Div2 = styled.div`
     grid-column: 2 / span 1;
