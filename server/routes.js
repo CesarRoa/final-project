@@ -6,7 +6,7 @@ const{
 }=require("./handlers");
 
 router.get("/api/test", test);
-router.get("/api/signin/:username",signin);
+router.post("/api/signin",signin);
 
 
 module.exports = router;

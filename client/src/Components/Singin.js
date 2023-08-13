@@ -6,7 +6,7 @@ import { FetchUser } from "./Fetch/handlers";
 
 const Signin = () =>{
     const {user, setUser} = useContext(UserContext);
-    const [signIn, setSignIn] = useState({username:"", password: ""});
+    // const [errorMessage, setErrorMessage] =useState("")
 
     const navigate = useNavigate();
 
@@ -14,18 +14,38 @@ const Signin = () =>{
         navigate("/newAccount")
     };
 
-    useEffect(()=>{
-        FetchUser(signIn)
-    }, [signIn])
+    // const handleFetch = async() =>{
+    //     try{
+    //         const verification = await FetchUser(signIn)
+    //         console.log(verification)
+    //         setErrorMessage("")
+    //     }
+    //     catch(error){
+    //         setErrorMessage(error.message)
+    //     }
+    // }
+    // useEffect(()=>{
+    //     // handleFetch()
+    //     FetchUser(signIn)
+    //     .then((res) =>{
+    //         setUser(res)})
+    // }, [signIn])
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) =>{
         e.preventDefault();
-        setSignIn({
-            username: e.target.username.value,
-            password: e.target.password.value,
-        });
+        try{
+            await FetchUser({
+                username: e.target.username.value,
+                password: e.target.password.value,
+            })
+            .then((res) => {
+                localStorage.setItem("user",res)
+                setUser(res)})
+        }
+        catch(error){
+            console.log(error.message)
+        }
     };
-    console.log(signIn)
 
 return(
     <Wrapper>
@@ -63,6 +83,7 @@ return(
                 <button
                 type="submit"
                 >Sign in</button>
+                {/* {errorMessage && <div>{errorMessage}</div>} */}
             </Form>
             <DivOptions>
                 <Div className="create">

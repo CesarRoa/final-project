@@ -15,6 +15,7 @@ const batchImport = async () =>{
         const db = client.db("budgeturself");
         const profile = users.map((user)=>({
             _id: user._id,
+            logIn: user.logIn,
             profile: user.user,
             basicInfo: user.basicInfo,
             historical: user.historical

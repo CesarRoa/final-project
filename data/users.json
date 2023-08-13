@@ -2,12 +2,16 @@
     [
     {
         "_id": 10001,
+        "logIn":{
+            "username": "joedoe00",
+            "password": "Password123!@#"
+        },
         "user":{
             "name":"Joe Doe",
             "username": "joedoe00",
+            "password": "Password123!@#", 
             "email":"joedoe00@aol.com",
             "phone": 5410231567,
-            "password":"Password123!@#",
             "memberSince": "2023-06-09"
         },
         "basicInfo":{

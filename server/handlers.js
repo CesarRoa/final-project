@@ -27,8 +27,9 @@ const test = async (req, res)=>{
 }
 
 const signin = async (req, res)=>{
-    const targetUser = req.params.username
-    // res.status(200).json({data: targetUser})
+    const body = req.body
+    const targetUser = body.username
+    const targetPassword = body.password
     try {
         await client.connect();
         const db = client.db("budgeturself");
@@ -36,17 +37,24 @@ const signin = async (req, res)=>{
         const profile = await users.findOne({"profile.username": targetUser});
         if (!profile){
             return res.status(400).json({
-                // data: profile,
                 status: 400,
-                message: "no username was found in db"
+                message: "no username was found in db",
+                username: targetUser
             });
         };
-        if(profile){
-            return res.status(200).json({
-                data: profile,
-                status: 200,
-            });
-        }
+        // implement bcrypt to improve security in password validation! STRETCH
+        if(targetPassword !== profile.profile.password){
+                return res.status(400).json({
+                    status: 400,
+                    message: "wrong password",
+                    password: targetPassword,
+                });
+            }
+        return res.status(200).json({
+            data: profile,
+            status: 200,
+        });
+        
     }
     catch(error){
         console.log(error.message)

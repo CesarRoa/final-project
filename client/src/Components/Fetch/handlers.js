@@ -1,9 +1,14 @@
 export const FetchUser = async (target) =>{
-    const username = target.username;
-    const password = target.password;
     try{
-        const url = `/api/signin/${username}`;
-        const res = await fetch (url);
+        const url = `/api/signin`;
+        const res = await fetch (url,{
+            method: "POST",
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify(target)
+        });
         if (res.status === 200){
             const result = await res.json()
             return result

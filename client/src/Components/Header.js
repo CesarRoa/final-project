@@ -1,11 +1,16 @@
 import { styled } from "styled-components";
 import BYA from "../images/BYA.png"
-import { useNavigate } from "react-router-dom";
-const Header = () =>{
+import { useNavigate, useState} from "react-router-dom";
+const Header = ({user, setUser}) =>{
     const navigate = useNavigate()
     const handleClick = () =>{
         navigate("/")
     }
+    const logOut = () =>{
+        setUser(null)
+        localStorage.clear()
+    }
+
 return(
     <Div>
         <Logo 
@@ -14,9 +19,15 @@ return(
         onClick={handleClick}
         />
         <h1>Header</h1>
-        <button
-        onClick={handleClick}
-        >Sign In</button>
+        {!user?
+            <button
+            onClick={handleClick}
+            >Sign In</button>
+            :
+            <button
+            onClick={logOut}
+            >Log Out</button>
+        }
     </Div>
 )
 };
