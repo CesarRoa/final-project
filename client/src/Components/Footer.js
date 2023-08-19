@@ -15,7 +15,8 @@ export default Footer;
 const Div = styled.div`
 display: flex;
 flex-direction: row;
-border: red solid 1px;
+/* border: red solid 1px; */
+border-top: #ff66c4 ridge 0.2em;
 height: 9vh;
 text-align: center;
 `

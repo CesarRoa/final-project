@@ -111,7 +111,7 @@ return(
 export default Signin;
 
 const Wrapper = styled.div`
-border: red solid 1px;
+/* border: red solid 1px; */
 height: 70vh;
 text-align: center;
 display: flex;
@@ -122,13 +122,13 @@ align-items: center;
 const Div = styled.div`
 height: 500px;
 width: 700px;
-border: red solid 1px;
+/* border: red solid 1px; */
 text-align: center;
 display: flex;
 flex-direction: column;
 justify-content: space-evenly;
 &.create, &.reset{
-    border: red dashed 1px;
+    /* border: red dashed 1px; */
     height: auto;
     width: auto;
     width: 50%;

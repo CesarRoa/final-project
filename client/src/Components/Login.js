@@ -12,6 +12,7 @@ const CreateAccount = () =>{
         lowercase: false,
         digit: false,
     });
+    const [userInfo, setUserInfo] = useState({})
 
     const navigate = useNavigate();
     const register = [
@@ -20,8 +21,8 @@ const CreateAccount = () =>{
         {name: "lastname", label: "Last Name", type: "text", placeholder:"Doe", function:{}}, 
         {name: "email", label: "E-Mail", type: "email", placeholder:"joedoe12@aol.com", function:{}}, 
         {name: "phone", label: "Phone Number", type: "number", placeholder:"101 100 1011", function:{}}, 
-        {name: "city", label: "City", type: "text", placeholder:"Your City", function:{}}, 
-        {name: "postalcode", label: "Postal Code", type: "text", placeholder:"X0X 0X0", function:{}},
+        // {name: "city", label: "City", type: "text", placeholder:"Your City", function:{}}, 
+        // {name: "postalcode", label: "Postal Code", type: "text", placeholder:"X0X 0X0", function:{}},
         {name: "password", label: "Password", type: "password", placeholder:"123456", function:{}}, 
         {name: "confirmPassword", label: "Confirm Password", type: "password", placeholder:"123456", function:{}}
     ];
@@ -47,8 +48,11 @@ const CreateAccount = () =>{
     
     const handleSubmit=(e)=>{
         e.preventDefault()
-        username && navigate(`/newAccount/${username}/registration`)
+        if(username && password){
+            navigate(`/newAccount/${username}/registration`)
+        }
     }
+    console.log(userInfo)
 return(
     <Wrapper>
         <Form

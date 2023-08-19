@@ -6,6 +6,7 @@ import Search from "./Search";
 const Home = ({user}) =>{
     const data = user.data
     const profile = data.profile
+    console.log(user)
 
     const navigate = useNavigate();
     const handleClickHitorical = ()=>{
@@ -17,10 +18,13 @@ const Home = ({user}) =>{
     const handleClickAdd = ()=>{
         navigate(`/${profile.username}/add`)
     }
+    const handleClickData = ()=>{
+        navigate(`/${profile.username}/dataProcess`)
+    }
 return(
     <Div>
         <Div1>
-            <Profile data = {data}/>
+            <Profile profile = {data.profile} basicInfo = {data.basicInfo}/>
             <Search/>
         </Div1>
         <Div2>
@@ -35,9 +39,17 @@ return(
         onClick={handleClickAdd}
         >Add Entry
         </button>
+        <button
+        onClick={handleClickData}
+        >Data Process
+        </button>
+        <button
+        onClick={handleClickTable}
+        >Table
+        </button>
         </Div3>
         <Div4>
-        <Chart/>
+        <Chart basicInfo = {data.basicInfo} historical = {data.historical}/>
         </Div4>
     </Div>
 )
@@ -71,6 +83,9 @@ const Div3 = styled.div`
     grid-column: 1 / span 1;
     grid-row: 3 / span 3;
     border: orange solid 1px;
+    display: flex;
+    justify-content: space-around;
+
 `
 const Div4 = styled.div`
     grid-column: 2 / span 1;

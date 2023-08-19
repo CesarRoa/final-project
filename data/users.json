@@ -1,145 +1,289 @@
 
-    [
+[
     {
         "_id": 10001,
-        "logIn":{
+        "security":{
             "username": "joedoe00",
-            "password": "Password123!@#"
+            "password": "Zaq123"
         },
         "user":{
-            "name":"Joe Doe",
             "username": "joedoe00",
-            "password": "Password123!@#", 
+            "fName":"Joe",
+            "lName": "Doe",
             "email":"joedoe00@aol.com",
             "phone": 5410231567,
-            "memberSince": "2023-06-09"
+            "memberSince": "2023-06-01"
         },
         "basicInfo":{
-            "monthlyIncome": 3000,
-            "monthlyExpenses":{
-                "services":{
-                    "electricity": 50,
-                    "gas": 60,
-                    "phone": 30,
-                    "water":40,
-                    "internet": 30,
-                    "tv": 10,
-                    "carInsurance": 100,
-                    "otherBills":[]
-                },
-                "expenses":{
-                    "food": 250,
-                    "household": 1250,
-                    "transportation": 100,
-                    "education": 200,
-                    "entertainment": 50,
-                    "gas": 150,
-                    "otherExpenses":[]
-                }
-            },
-            "yearExpenses":{
-            "travel": 700,
-            "shopping": 500,
-            "leisure": 500,
-            "others":[]
-            }
-        },
-        "historical":
-        [
-            {
-                "year": 2023,
-                "month": "june",
-                "income": 3000,
-                "expenses":
+            "currentAmount": 7000,
+            "monthlyIncome":{"tag":"salary", "amount": 1500, "date":"2023-06-29", "frequency": 2},
+            "monthlyExpenses":[
                 {
-                    "services":320,
-                    "expenses":{
-                        "food": 250,
-                        "household": 1250,
-                        "transportation": 100,
-                        "education": 200,
-                        "entertainment": 50,
-                        "gas": 70
-                    }
+                    "tag": "services",
+                    "expenses":[
+                        {
+                            "name": "electricity",
+                            "amount": 50,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "gas",
+                            "amount": 60,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "phone",
+                            "amount": 30,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "water",
+                            "amount": 40,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "internet",
+                            "amount": 30,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "tv",
+                            "amount": 10,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "carInsurance",
+                            "amount": 100,
+                            "date":"2023-06-07"
+                        }
+                    ]
+                },
+                {
+                    "tag": "fixed",
+                    "expenses":[
+                        {
+                            "name":"rent",
+                            "amount" :1250,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name":"food",
+                            "amount": 250,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name":"transportation",
+                            "amount": 100,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name":"education",
+                            "amount": 200,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "entertainment",
+                            "amount": 50,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "carRelated",
+                            "amount": 70,
+                            "date":"2023-06-07"
+                        }
+                    ]
                 }
-            },
+            ],
+            "yearExpenses":[
+                {
+                    "name": "travel" ,
+                    "amount": 700,
+                    "date":"2023-06-07"
+                },
+                {
+                    "name": "shopping",
+                    "amount": 500,
+                    "date":"2023-06-07"
+                },
+                {
+                    "name": "leisure",
+                    "amount": 500,
+                    "date":"2023-06-07"
+                }
+            ]
+        },
+        "historical":[
             {
                 "year": 2023,
                 "month": "july",
-                "income": 3000,
-                "expenses":
-                {
-                    "services":320,
-                    "expenses":{
-                        "food": 250,
-                        "household": 1250,
-                        "transportation": 100,
-                        "education": 200,
-                        "entertainment": 50,
-                        "gas": 70
-                    }
-                }
-            }
-        ]
-    },
-        {
-        "_id": 10002,
-        "user":{
-            "name":"Jane Doe",
-            "username": "janedoe00",
-            "email":"janedoe99@aol.com",
-            "phone": 48376513201,
-            "password":"Password123!@#",
-            "memberSince": "2023-07-06"
-        },
-        "basicInfo":{
-            "monthlyIncome": 5000,
-            "monthlyExpenses":{
-                "services":{
-                    "electricity": 50,
-                    "gas": 60,
-                    "phone": 30,
-                    "water":40,
-                    "internet": 30,
-                    "tv": 10,
-                    "carInsurance": 100,
-                    "otherBills":[]
+                "income": {
+                    "salary": 1500,
+                    "date1": "2023-07-13",
+                    "date2": "2023-07-27"
                 },
-                "expenses":{
-                    "food": 250,
-                    "household": 1250,
-                    "transportation": 100,
-                    "education": 200,
-                    "entertainment": 50,
-                    "gas": 150,
-                    "otherExpenses":[]
-                }
+                "monthlyExpenses":[
+                    {
+                        "tag": "services",
+                        "expenses":[
+                            {
+                                "name": "electricity",
+                                "amount": 50,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name": "gas",
+                                "amount": 60,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name": "phone",
+                                "amount": 30,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name": "water",
+                                "amount": 40,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name": "internet",
+                                "amount": 30,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name": "tv",
+                                "amount": 10,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name": "carInsurance",
+                                "amount": 100,
+                                "date":"2023-07-05"
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "fixed",
+                        "expenses":[
+                            {
+                                "name":"rent",
+                                "amount" :1250,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name":"food",
+                                "amount": 250,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name":"transportation",
+                                "amount": 100,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name":"education",
+                                "amount": 200,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name": "entertainment",
+                                "amount": 50,
+                                "date":"2023-07-05"
+                            },
+                            {
+                                "name": "carRelated",
+                                "amount": 70,
+                                "date":"2023-07-05"
+                            }
+                        ]
+                    }
+                ]
             },
-            "yearExpenses":{
-            "travel": 700,
-            "shopping": 500,
-            "leisure": 500,
-            "others":[]
-            }
-        },
-        "historical":
-        [
             {
                 "year": 2023,
-                "month": "july",
-                "income": 3000,
-                "expenses":
-                {
-                    "services":320,
-                    "expenses":{
-                        "food": 250,
-                        "household": 1250,
-                        "transportation": 100,
-                        "education": 200,
-                        "entertainment": 50,
-                        "gas": 70
+                "month": "august",
+                "income": {
+                    "salary": 3000,
+                    "date1": "2023-08-10",
+                    "date2": "2023-08-24"
+                },
+                "monthlyExpenses":[
+                    {
+                        "tag": "services",
+                        "expenses":[
+                            {
+                                "name": "electricity",
+                                "amount": 50,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name": "gas",
+                                "amount": 60,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name": "phone",
+                                "amount": 30,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name": "water",
+                                "amount": 40,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name": "internet",
+                                "amount": 30,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name": "tv",
+                                "amount": 10,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name": "carInsurance",
+                                "amount": 100,
+                                "date":"2023-08-02"
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "fixed",
+                        "expenses":[
+                            {
+                                "name":"rent",
+                                "amount" :1250,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name":"food",
+                                "amount": 250,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name":"transportation",
+                                "amount": 100,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name":"education",
+                                "amount": 200,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name": "entertainment",
+                                "amount": 50,
+                                "date":"2023-08-02"
+                            },
+                            {
+                                "name": "carRelated",
+                                "amount": 70,
+                                "date":"2023-08-02"
+                            }
+                        ]
                     }
-                }
+                ]
             }
         ]
     }

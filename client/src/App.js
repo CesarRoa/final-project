@@ -8,12 +8,17 @@ import Table from "./Components/Table";
 import Footer from "./Components/Footer";
 import Registration from "./Components/Registration";
 import AddTag from "./Components/AddTag";
+import DataProcess from "./Components/DataProcess";
 import { useContext } from "react";
 import { UserContext } from "./Components/Context";
 import CreateAccount from "./Components/Login";
 
 const App = () => {
   const {user, setUser} = useContext(UserContext)
+  // const {data:{basicInfo, profile, historical, _id}} = user
+  // const {currentAmount, monthlyExpenses, monthlyIncome, yearExpenses} = basicInfo
+
+
   return (
     <Router>
       <GlobalStyles/>
@@ -22,10 +27,11 @@ const App = () => {
         <Routes>
           <Route path = "/" element = {!user? <Signin/> : <Home user = {user}/>}/>
           <Route path = "/newAccount" element = {<CreateAccount/>}/>
-          <Route path="/:account/historical"  element={<Historical />} />
-          <Route path="/:account/table"  element={<Table />} />
+          <Route path="/:account/historical"  element={<Historical user = {user}/>} />
+          <Route path="/:account/table"  element={<Table user = {user}/>} />
           <Route path="/:account/add"  element={<AddTag />} />
           <Route path="/newAccount/:account/registration" element ={<Registration/>} />
+          <Route path="/:account/dataProcess" element ={<DataProcess data = {user}/>}/>
         </Routes>
       </>
       <Footer/>

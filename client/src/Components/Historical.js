@@ -1,9 +1,11 @@
 import { styled } from "styled-components";
-const Historical = () =>{
+const Historical = ({user}) =>{
     return(
     <Div>
         <h1>
         Historical
+        Data for:
+        {user.data.profile.username}
         </h1>
     </Div>
 )

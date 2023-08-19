@@ -35,7 +35,8 @@ return(
 export default Header;
 
 const Div = styled.div`
-border: red solid 1px;
+/* border: red solid 1px; */
+border-bottom: 0.2em #5170ff ridge ;
 height: 20vh;
 display: flex;
 align-items: center;
