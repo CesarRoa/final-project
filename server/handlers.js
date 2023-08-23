@@ -2,6 +2,11 @@ const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
 const { v4: uuidv4 } = require("uuid");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+const secretKey = 'yourSecretKey';
+
 
 const options = {
     useNewUrlParser: true,
@@ -32,7 +37,7 @@ const test = async (req, res)=>{
     }
 }
 
-// PENDING
+// PASS
 const signin = async (req, res)=>{
     const body = req.body
     const targetUser = body.username
@@ -49,14 +54,20 @@ const signin = async (req, res)=>{
                 username: targetUser
             });
         };
-        // implement bcrypt to improve security in password validation! STRETCH
-        if(targetPassword !== profile.security.password){
-                return res.status(400).json({
-                    status: 400,
-                    message: "wrong password",
-                    password: targetPassword,
-                });
-            };
+        const passwordMatch = await bcrypt.compare(targetPassword, profile.security.password);
+        if (!passwordMatch) {
+            return res.status(400).json({
+                status: 400,
+                message: "wrong password",
+            });
+        }
+        // if(targetPassword !== profile.security.password){
+        //         return res.status(400).json({
+        //             status: 400,
+        //             message: "wrong password",
+        //             password: targetPassword,
+        //         });
+        //     };
         const {security, ...rest} = profile
         return res.status(200).json({
             data: rest,
@@ -168,10 +179,69 @@ const addData = async (req, res)=>{
 
     }
 }
+
+const loginTest = async (req, res) =>{
+    const body = req.body
+    const targetUser = body.username    
+    const targetPassword = body.password
+    try {
+        await client.connect();
+        const db = client.db("budgeturself");
+        const users = db.collection("users");
+        const profile = await users.findOne({"security.username": targetUser});
+        if (!profile){
+            return res.status(400).json({
+                status: 400,
+                message: "no username was found in db",
+                username: targetUser
+            });
+        };
+        if(targetPassword !== profile.security.password){
+                return res.status(400).json({
+                    status: 400,
+                    message: "wrong password",
+                    password: targetPassword,
+                });
+            };
+        const {security, ...rest} = profile
+        // return res.status(200).json({
+        //     data: rest,
+        //     status: 200,
+        // });
+        const token = jwt.sign({ userId: profile._id }, 'yourSecretKey', { expiresIn: '1h' });
+
+        return res.status(200).json({
+            data: rest,
+            status: 200,
+            token: token, // Include the generated token in the response
+        });
+    }
+    catch(error){
+        console.log(error.message)
+    }
+}
+
+const verifyToken = async (req, res)=>{
+    const token = req.headers.authorization;
+    if (!token) {
+        return res.status(403).json({ message: 'No token provided' });
+    }
+
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+        return res.status(401).json({ message: 'Token is not valid' });
+    }
+
+    req.user = decoded;
+    next();
+    });
+}
 module.exports={
     test,
     signin,
     newAccount,
     deleteAccount,
-    addData
+    addData,
+    loginTest,
+    verifyToken
 }

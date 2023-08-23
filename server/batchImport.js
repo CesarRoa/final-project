@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const {MongoClient} = require("mongodb");
 require("dotenv").config();
 const {MONGO_URI} = process.env;
@@ -13,15 +14,23 @@ const batchImport = async () =>{
     try{
         await client.connect();
         const db = client.db("budgeturself");
-        const profile = users.map((user)=>({
-            _id: user._id,
-            security: user.security,
-            profile: user.user,
-            basicInfo: user.basicInfo,
-            historical: user.historical
-        }))
-        await db.collection("users").insertMany(profile);
-
+        const hashedProfiles = await Promise.all(users.map(async (user) => {
+            const hashedPassword = await bcrypt.hash(user.security.password, 10);
+            return{
+                _id: user._id,
+                security: {
+                    username: user.security.username,
+                    password: hashedPassword,
+                },
+                profile: user.user,
+                basicInfo: user.basicInfo,
+                historical: user.historical,
+            };
+        }));
+        // Insert hashed profiles into the database
+        const usersCollection = db.collection("users");
+        await usersCollection.insertMany(hashedProfiles);
+        console.log("Batch import completed successfully.");
     }
     catch(error){
         console.log(error.message);

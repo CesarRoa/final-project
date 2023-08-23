@@ -13,11 +13,11 @@ export const FetchUser = async (target) =>{
             const result = await res.json()
             return result
         }else{
-            throw new Error('Invalid Username')
+            throw new Error('Invalid Username or Password')
         }
     }
     catch (err){
-        console.log(err)
+        throw err
     }
 }
 

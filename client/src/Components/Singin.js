@@ -1,35 +1,43 @@
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState, useEffect} from "react";
+import { useContext, useState, useEffect, useRef} from "react";
 import { UserContext } from "./Context";
 import { FetchUser } from "./Fetch/handlers";
 
 const Signin = () =>{
+    /*/ 
+    1. Context to store data from user. 
+    2. States to compare username and password and prompt error in due case.
+    3. Ref to focus on inputs.
+    4. navigation to other components as needed.
+    5. 
+
+    /*/
     const {user, setUser} = useContext(UserContext);
-    // const [errorMessage, setErrorMessage] =useState("")
+    const userRef = useRef();
+    const [errMessage, setErrMessage] = useState("");
+    const [name, setName] = useState("");
+    const [pwd, setPwd] = useState("");
+
+    useEffect(()=>{
+        userRef.current.focus();
+    },[]);
+
+    useEffect(()=>{
+        setErrMessage("");
+    },[name, pwd]);
 
     const navigate = useNavigate();
 
-    const handleClick = () =>{
-        navigate("/newAccount")
+    const handleClick = (e) =>{
+        const value = e.target.value;
+        if(value === "reset"){
+            navigate("/resetPassword");
+        }
+        if(value ==="register"){
+            navigate("/newAccount");
+        }
     };
-
-    // const handleFetch = async() =>{
-    //     try{
-    //         const verification = await FetchUser(signIn)
-    //         console.log(verification)
-    //         setErrorMessage("")
-    //     }
-    //     catch(error){
-    //         setErrorMessage(error.message)
-    //     }
-    // }
-    // useEffect(()=>{
-    //     // handleFetch()
-    //     FetchUser(signIn)
-    //     .then((res) =>{
-    //         setUser(res)})
-    // }, [signIn])
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -39,11 +47,11 @@ const Signin = () =>{
                 password: e.target.password.value,
             })
             .then((res) => {
-                localStorage.setItem("user",res)
-                setUser(res)})
+                setUser(res);
+            })
         }
         catch(error){
-            console.log(error.message)
+            setErrMessage(error.message);
         }
     };
 
@@ -55,15 +63,15 @@ return(
             onSubmit={handleSubmit}
             >
                 <div>
-                    <label
-                    htmlFor="username"
-                    >
+                    <label htmlFor="username">
                         Username
                     </label>
                     <input
                     type="text"
                     id="username"
+                    ref={userRef}
                     name="username"
+                    onChange={(e)=>setName(e.target.value)}
                     >
                     </input>
                 </div>
@@ -77,13 +85,20 @@ return(
                     type="password"
                     id="password"
                     name="password"
+                    onChange={(e)=>setPwd(e.target.value)}
                     >
                     </input>
                 </div>
                 <button
                 type="submit"
                 >Sign in</button>
-                {/* {errorMessage && <div>{errorMessage}</div>} */}
+                {errMessage&&
+                <div>
+                <Error>
+                    Error: {errMessage}
+                </Error>
+                </div>
+                }
             </Form>
             <DivOptions>
                 <Div className="create">
@@ -91,6 +106,7 @@ return(
                         Not a member?
                     </span>
                     <button
+                    value="register"
                     onClick={handleClick}
                     >Register</button>
                 </Div>
@@ -99,6 +115,7 @@ return(
                         Forgot your password?
                     </span>
                     <button
+                    value="reset"
                     onClick={handleClick}
                     >Reset Password</button>
                 </Div>
@@ -141,6 +158,9 @@ justify-content: space-evenly;
 `
 
 const Form = styled.form`
+border: 0.5px solid silver;
+padding: 2rem;
+border-radius: 15px;
 & > div{
     margin: 50px 0;
     width: auto;
@@ -154,4 +174,9 @@ const Form = styled.form`
 const DivOptions = styled.div`
 display: flex;
 flex-direction: row;
+`
+
+const Error = styled.p`
+color:red;
+font-size: 2rem;
 `

@@ -4,90 +4,97 @@
         "_id": 10001,
         "security":{
             "username": "joedoe00",
-            "password": "Zaq123"
+            "password": "1"
         },
         "user":{
             "username": "joedoe00",
             "fName":"Joe",
             "lName": "Doe",
             "email":"joedoe00@aol.com",
-            "phone": 5410231567,
-            "memberSince": "2023-06-01"
+            "phone": 54102315670
         },
         "basicInfo":{
+            "memberSince": "2023-06-01",
             "currentAmount": 7000,
-            "monthlyIncome":{"tag":"salary", "amount": 1500, "date":"2023-06-29", "frequency": 2},
+            "monthlyIncome":{"tag":"active", "name":"Salary", "amount": 1500, "date":"2023-06-29", "frequency": 2},
             "monthlyExpenses":[
                 {
-                    "tag": "services",
+                    "tag":"passive", "type": "services",
                     "expenses":[
                         {
-                            "name": "electricity",
+                            "name": "Electricity",
+                            "frequency":2,
                             "amount": 50,
                             "date":"2023-06-07"
                         },
                         {
-                            "name": "gas",
+                            "name": "Gas",
+                            "frequency":2,
                             "amount": 60,
                             "date":"2023-06-07"
                         },
                         {
-                            "name": "phone",
+                            "name": "Phone",
+                            "frequency":1,
                             "amount": 30,
                             "date":"2023-06-07"
                         },
                         {
-                            "name": "water",
-                            "amount": 40,
-                            "date":"2023-06-07"
-                        },
-                        {
-                            "name": "internet",
+                            "name": "Internet",
+                            "frequency":1,
                             "amount": 30,
                             "date":"2023-06-07"
                         },
                         {
-                            "name": "tv",
+                            "name": "TV",
+                            "frequency":1,
                             "amount": 10,
                             "date":"2023-06-07"
                         },
                         {
-                            "name": "carInsurance",
+                            "name": "Car Insurance",
+                            "frequency":1,
                             "amount": 100,
                             "date":"2023-06-07"
                         }
                     ]
                 },
                 {
-                    "tag": "fixed",
+                    "tag":"passive", "type": "fixed",
                     "expenses":[
                         {
-                            "name":"rent",
+                            "name":"Rent",
+                            "frequency":1,
                             "amount" :1250,
                             "date":"2023-06-07"
                         },
                         {
-                            "name":"food",
+                            "name":"Food",
+                            "frequency":1,
                             "amount": 250,
                             "date":"2023-06-07"
                         },
                         {
-                            "name":"transportation",
-                            "amount": 100,
+                            "name":"Transportation",
+                            "frequency":1,
+                            "amount": 30,
                             "date":"2023-06-07"
                         },
                         {
-                            "name":"education",
+                            "name":"Education",
+                            "frequency":1,
                             "amount": 200,
                             "date":"2023-06-07"
                         },
                         {
-                            "name": "entertainment",
+                            "name": "Entertainment",
+                            "frequency":1,
                             "amount": 50,
                             "date":"2023-06-07"
                         },
                         {
-                            "name": "carRelated",
+                            "name": "Car Related",
+                            "frequency":2,
                             "amount": 70,
                             "date":"2023-06-07"
                         }
@@ -96,17 +103,20 @@
             ],
             "yearExpenses":[
                 {
-                    "name": "travel" ,
+                    "name": "Travel" ,
+                    "frequency":12,
                     "amount": 700,
                     "date":"2023-06-07"
                 },
                 {
-                    "name": "shopping",
+                    "name": "Shopping",
+                    "frequency":6,
                     "amount": 500,
                     "date":"2023-06-07"
                 },
                 {
-                    "name": "leisure",
+                    "name": "Leisure",
+                    "frequency":4,
                     "amount": 500,
                     "date":"2023-06-07"
                 }
@@ -115,7 +125,7 @@
         "historical":[
             {
                 "year": 2023,
-                "month": "july",
+                "month": "July",
                 "income": {
                     "salary": 1500,
                     "date1": "2023-07-13",
@@ -123,75 +133,88 @@
                 },
                 "monthlyExpenses":[
                     {
-                        "tag": "services",
+                        "tag":"passive", "type": "services",
                         "expenses":[
                             {
-                                "name": "electricity",
+                                "name": "Electricity",
+                                "frequency":2,
                                 "amount": 50,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name": "gas",
+                                "name": "Gas",
+                                "frequency":2,
                                 "amount": 60,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name": "phone",
+                                "name": "Phone",
+                                "frequency":1,
                                 "amount": 30,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name": "water",
+                                "name": "Water",
+                                "frequency":4,
                                 "amount": 40,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name": "internet",
+                                "name": "Internet",
+                                "frequency":1,
                                 "amount": 30,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name": "tv",
+                                "name": "TV",
+                                "frequency":1,
                                 "amount": 10,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name": "carInsurance",
+                                "name": "CarInsurance",
+                                "frequency":4,
                                 "amount": 100,
                                 "date":"2023-07-05"
                             }
                         ]
                     },
                     {
-                        "tag": "fixed",
+                        "tag":"passive", "type": "fixed",
                         "expenses":[
                             {
-                                "name":"rent",
+                                "name":"Rent",
+                                "frequency":1,
                                 "amount" :1250,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name":"food",
+                                "name":"Food",
+                                "frequency":1,
                                 "amount": 250,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name":"transportation",
-                                "amount": 100,
+                                "name":"Transportation",
+                                "frequency":1,
+                                "amount": 30,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name":"education",
+                                "name":"Education",
+                                "frequency":1,
                                 "amount": 200,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name": "entertainment",
+                                "name": "Entertainment",
+                                "frequency":1,
                                 "amount": 50,
                                 "date":"2023-07-05"
                             },
                             {
-                                "name": "carRelated",
+                                "name": "Car Related",
+                                "frequency":2,
                                 "amount": 70,
                                 "date":"2023-07-05"
                             }
@@ -201,7 +224,7 @@
             },
             {
                 "year": 2023,
-                "month": "august",
+                "month": "August",
                 "income": {
                     "salary": 3000,
                     "date1": "2023-08-10",
@@ -209,75 +232,88 @@
                 },
                 "monthlyExpenses":[
                     {
-                        "tag": "services",
+                        "tag":"passive", "type": "services",
                         "expenses":[
                             {
-                                "name": "electricity",
+                                "name": "Electricity",
+                                "frequency":2,
                                 "amount": 50,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name": "gas",
+                                "name": "Gas",
+                                "frequency":2,
                                 "amount": 60,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name": "phone",
+                                "name": "Phone",
+                                "frequency":1,
                                 "amount": 30,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name": "water",
+                                "name": "Water",
+                                "frequency":4,
                                 "amount": 40,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name": "internet",
+                                "name": "Internet",
+                                "frequency":1,
                                 "amount": 30,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name": "tv",
+                                "name": "TV",
+                                "frequency":1,
                                 "amount": 10,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name": "carInsurance",
+                                "name": "Car Insurance",
+                                "frequency":1,
                                 "amount": 100,
                                 "date":"2023-08-02"
                             }
                         ]
                     },
                     {
-                        "tag": "fixed",
+                        "tag":"passive", "type": "fixed",
                         "expenses":[
                             {
-                                "name":"rent",
+                                "name":"Rent",
+                                "frequency":1,
                                 "amount" :1250,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name":"food",
+                                "name":"Food",
+                                "frequency":1,
                                 "amount": 250,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name":"transportation",
-                                "amount": 100,
+                                "name":"Transportation",
+                                "frequency":1,
+                                "amount": 30,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name":"education",
+                                "name":"Education",
+                                "frequency":1,
                                 "amount": 200,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name": "entertainment",
+                                "name": "Entertainment",
+                                "frequency":1,
                                 "amount": 50,
                                 "date":"2023-08-02"
                             },
                             {
-                                "name": "carRelated",
+                                "name": "Car Related",
+                                "frequency":2,
                                 "amount": 70,
                                 "date":"2023-08-02"
                             }
@@ -286,5 +322,128 @@
                 ]
             }
         ]
+    },
+    {
+        "_id": 10002,
+        "security":{
+            "username": "joedoe02",
+            "password": "2"
+        },
+        "user":{
+            "username": "joedoe00",
+            "fName":"Joe",
+            "lName": "Doe",
+            "email":"joedoe00@aol.com",
+            "phone": 54102315670
+        },
+        "basicInfo":{
+            "memberSince": "2023-06-01",
+            "currentAmount": 7000,
+            "monthlyIncome":{"tag":"active", "name":"Salary", "amount": 1500, "date":"2023-06-01", "frequency": 2},
+            "monthlyExpenses":[
+                {
+                    "tag":"passive", "type": "services",
+                    "expenses":[
+                        {
+                            "name": "Electricity",
+                            "frequency":2,
+                            "amount": 50,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "Gas",
+                            "frequency":2,
+                            "amount": 60,
+                            "date":"2023-06-07"
+                        },
+                        {
+                            "name": "Phone",
+                            "frequency":1,
+                            "amount": 30,
+                            "date":"2023-06-01"
+                        },
+                        {
+                            "name": "Internet",
+                            "frequency":1,
+                            "amount": 30,
+                            "date":"2023-06-05"
+                        },
+                        {
+                            "name": "TV",
+                            "frequency":1,
+                            "amount": 10,
+                            "date":"2023-06-12"
+                        },
+                        {
+                            "name": "Car Insurance",
+                            "frequency":1,
+                            "amount": 100,
+                            "date":"2023-06-15"
+                        }
+                    ]
+                },
+                {
+                    "tag":"passive", "type": "fixed",
+                    "expenses":[
+                        {
+                            "name":"Rent",
+                            "frequency":1,
+                            "amount" :1250,
+                            "date":"2023-06-01"
+                        },
+                        {
+                            "name":"Food",
+                            "frequency":1,
+                            "amount": 250,
+                            "date":"2023-06-17"
+                        },
+                        {
+                            "name":"Transportation",
+                            "frequency":1,
+                            "amount": 30,
+                            "date":"2023-06-01"
+                        },
+                        {
+                            "name":"Education",
+                            "frequency":1,
+                            "amount": 200,
+                            "date":"2023-06-22"
+                        },
+                        {
+                            "name": "Entertainment",
+                            "frequency":1,
+                            "amount": 50,
+                            "date":"2023-06-25"
+                        },
+                        {
+                            "name": "Car Related",
+                            "frequency":2,
+                            "amount": 70,
+                            "date":"2023-06-30"
+                        }
+                    ]
+                }
+            ],
+            "yearExpenses":[
+                {
+                    "name": "Travel" ,
+                    "frequency":12,
+                    "amount": 700,
+                    "date":"2023-06-01"
+                },
+                {
+                    "name": "Shopping",
+                    "frequency":6,
+                    "amount": 500,
+                    "date":"2023-06-01"
+                },
+                {
+                    "name": "Leisure",
+                    "frequency":4,
+                    "amount": 500,
+                    "date":"2023-06-01"
+                }
+            ]
+        }
     }
 ]

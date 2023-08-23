@@ -9,15 +9,13 @@ import Footer from "./Components/Footer";
 import Registration from "./Components/Registration";
 import AddTag from "./Components/AddTag";
 import DataProcess from "./Components/DataProcess";
+import Reset from "./Components/Reset";
 import { useContext } from "react";
 import { UserContext } from "./Components/Context";
 import CreateAccount from "./Components/Login";
 
 const App = () => {
   const {user, setUser} = useContext(UserContext)
-  // const {data:{basicInfo, profile, historical, _id}} = user
-  // const {currentAmount, monthlyExpenses, monthlyIncome, yearExpenses} = basicInfo
-
 
   return (
     <Router>
@@ -32,6 +30,7 @@ const App = () => {
           <Route path="/:account/add"  element={<AddTag />} />
           <Route path="/newAccount/:account/registration" element ={<Registration/>} />
           <Route path="/:account/dataProcess" element ={<DataProcess data = {user}/>}/>
+          <Route path="/resetPassword" element = {<Reset/>}/>
         </Routes>
       </>
       <Footer/>

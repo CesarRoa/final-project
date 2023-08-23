@@ -36,13 +36,13 @@ time, mark, audio, video {
 }
 
 h1{
-    font-size: 4em;
+    font-size: 2em;
 }
 span{
 	font-size: 0.8em;
 }
 label, input, p, select{
-	font-size: 2em;
+	font-size: 1em;
 }
 button{
 	font-size: 1em;

@@ -74,7 +74,6 @@ return(
                         : null
                     }
                     />
-
                     {item.name === 'username' && usernameTaken && (
                         <Div className="error-message">Username already exists</Div>
                         )}
@@ -110,7 +109,6 @@ return(
                         </div>
                     </Div2>
                     )}
-
                     </div>
                 )
             })}

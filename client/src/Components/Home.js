@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Profile from "./Profile"
 import Chart from "./Chart";
 import Search from "./Search";
+
 const Home = ({user}) =>{
     const data = user.data
     const profile = data.profile
-    console.log(user)
 
     const navigate = useNavigate();
     const handleClickHitorical = ()=>{
@@ -29,6 +29,10 @@ return(
         </Div1>
         <Div2>
             Calculator
+        <button
+        onClick={handleClickAdd}
+        >Add Entry
+        </button>
         </Div2>
         <Div3>
         <button
@@ -36,20 +40,16 @@ return(
         >History
         </button>
         <button
-        onClick={handleClickAdd}
-        >Add Entry
-        </button>
-        <button
         onClick={handleClickData}
         >Data Process
         </button>
-        <button
+        {/* <button
         onClick={handleClickTable}
         >Table
-        </button>
+        </button> */}
         </Div3>
         <Div4>
-        <Chart basicInfo = {data.basicInfo} historical = {data.historical}/>
+        <Chart data = {user}/>
         </Div4>
     </Div>
 )
