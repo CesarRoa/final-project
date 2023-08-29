@@ -5,6 +5,7 @@ import Chart from "./Chart";
 import Search from "./Search";
 
 const Home = ({user}) =>{
+    console.log(user)
     const data = user.data
     const profile = data.profile
 

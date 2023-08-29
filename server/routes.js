@@ -6,7 +6,9 @@ const{
     newAccount,
     deleteAccount,
     addData,
-    loginTest
+    loginTest,
+    authenticateToken,
+    verifyToken
 }=require("./handlers");
 
 router.get("/api/test", test);
@@ -18,5 +20,7 @@ router.delete("/api/deleteAccount/:username", deleteAccount)
 router.post("/api/addData/:user/:year/:month", addData)
 
 router.post("/api/login", loginTest)
+
+router.get("/api/verify", authenticateToken, verifyToken)
 
 module.exports = router;

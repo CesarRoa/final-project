@@ -1,12 +1,9 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
-const { MONGO_URI } = process.env;
+const { MONGO_URI, TEST_TOKEN} = process.env;
 const { v4: uuidv4 } = require("uuid");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
-const secretKey = 'yourSecretKey';
-
 
 const options = {
     useNewUrlParser: true,
@@ -61,17 +58,13 @@ const signin = async (req, res)=>{
                 message: "wrong password",
             });
         }
-        // if(targetPassword !== profile.security.password){
-        //         return res.status(400).json({
-        //             status: 400,
-        //             message: "wrong password",
-        //             password: targetPassword,
-        //         });
-        //     };
         const {security, ...rest} = profile
+        const user = {_id: profile._id}
+        const token = jwt.sign(user, TEST_TOKEN);
         return res.status(200).json({
             data: rest,
             status: 200,
+            accessToken: token
         });
         
     }
@@ -204,16 +197,12 @@ const loginTest = async (req, res) =>{
                 });
             };
         const {security, ...rest} = profile
-        // return res.status(200).json({
-        //     data: rest,
-        //     status: 200,
-        // });
-        const token = jwt.sign({ userId: profile._id }, 'yourSecretKey', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: profile._id }, TEST_TOKEN);
 
         return res.status(200).json({
             data: rest,
-            status: 200,
-            token: token, // Include the generated token in the response
+            status: 200
+            // token: token, // Include the generated token in the response
         });
     }
     catch(error){
@@ -221,21 +210,42 @@ const loginTest = async (req, res) =>{
     }
 }
 
-const verifyToken = async (req, res)=>{
-    const token = req.headers.authorization;
-    if (!token) {
-        return res.status(403).json({ message: 'No token provided' });
-    }
+const authenticateToken = (req, res, next) =>{
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; //Bearer TOKEN
+    if (token == null) return res.status(401).json({
+        message: "Access denied"
+    }); //user has no access
 
-    jwt.verify(token, secretKey, (err, decoded) => {
-        if (err) {
-        return res.status(401).json({ message: 'Token is not valid' });
-    }
-
-    req.user = decoded;
-    next();
-    });
+    jwt.verify(token, process.env.TEST_TOKEN, (err, user)=>{
+        if (err) return res.status(403).json({
+            message: "token no longer valid",
+            token: token
+        }); // user has no access bcs token is not longer valid
+        req.user = user
+        next()
+    })
 }
+
+const verifyToken = async (req, res)=> {
+    let _id = req.user._id
+    try {
+        await client.connect();
+        const db = client.db("budgeturself");
+        const users = db.collection("users");
+        const profile = await users.findOne({"_id": _id})
+        const {security, ...rest} = profile
+    return res.status(200).json({
+        message: "Token verified",
+        user: req.user._id,
+        data: rest
+        });
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
 module.exports={
     test,
     signin,
@@ -243,5 +253,6 @@ module.exports={
     deleteAccount,
     addData,
     loginTest,
+    authenticateToken,
     verifyToken
 }

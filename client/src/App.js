@@ -10,12 +10,35 @@ import Registration from "./Components/Registration";
 import AddTag from "./Components/AddTag";
 import DataProcess from "./Components/DataProcess";
 import Reset from "./Components/Reset";
-import { useContext } from "react";
+import { useContext, useEffect} from "react";
 import { UserContext } from "./Components/Context";
 import CreateAccount from "./Components/Login";
 
 const App = () => {
   const {user, setUser} = useContext(UserContext)
+
+  useEffect(() => {
+    const verifyStoredToken = async () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            try {
+                const response = await fetch("/api/verify", {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (data) {
+                    setUser(data); // Update your user context.
+                }
+            } catch (error) {
+                console.error("Failed to verify token:", error);
+            }
+        }
+    };
+
+    verifyStoredToken();
+}, []);
 
   return (
     <Router>

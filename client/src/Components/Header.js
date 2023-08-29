@@ -11,7 +11,8 @@ const Header = ({user, setUser}) =>{
     }
 
     const logOut = () =>{
-        setUser(null)
+        setUser(null);
+        localStorage.clear()
     }
 
 return(

@@ -48,6 +48,7 @@ const Signin = () =>{
             })
             .then((res) => {
                 setUser(res);
+                localStorage.setItem('token', res.accessToken)
             })
         }
         catch(error){
