@@ -16,8 +16,13 @@ export const generateMonthData = (year, month) => {
     return monthData;
 };
 
-export const timePush = (arr, date, amount, type) =>{
-    return arr.push({ date: date.toISOString().split('T')[0], amount: amount, type: type })
+export const timePush = (arr, date, name, amount, tag) =>{
+    return arr.push({ 
+        date: date.toISOString().split('T')[0], 
+        name: name, 
+        amount: amount, 
+        tag: tag 
+    })
 }
 
 export const changeDate = (date) =>{
@@ -92,11 +97,13 @@ export const Basic = (data, month, year) => {
     const startDate = changeDate(memberSince)
     const calculatedDate = formatDate(test)
     const targetDate = changeDate(calculatedDate)
-    
+
+    // storing array
+
     let timeline = [];
-    timePush(timeline, startDate, currentAmount, "starting balance")
+    timePush(timeline, startDate, "Balance", currentAmount, "balance")
     
-    // income per month
+    // add income per month
     
     const income = monthlyIncome;
     const incomeStartDay = changeDate(income.date)
@@ -118,7 +125,7 @@ export const Basic = (data, month, year) => {
     }
     
     for(let day = incomeStartDay; day <= lastDayOfMonth; day.setDate(day.getDate() + increment)){
-        timePush (timeline, day, income.amount, "income")
+        timePush (timeline, day, income.name, income.amount, income.tag)
     }
     
     // monthly expenses
@@ -128,7 +135,7 @@ export const Basic = (data, month, year) => {
             let expenseDate = new Date(expense.date);
             while (expenseDate.getFullYear() === startDate.getFullYear()) {
                 if (expenseDate >= startDate) {
-                    timePush(timeline, expenseDate, -expense.amount, "expense" );
+                    timePush(timeline, expenseDate, expense.name, -Math.floor(expense.amount/expense.frequency), category.tag );
                 }
                 expenseDate.setDate(expenseDate.getDate() + expense.frequency * 30);
             }
@@ -140,14 +147,15 @@ export const Basic = (data, month, year) => {
         return 0;
     });
 
-    // year
+    // year expenses
+
     yearExpenses.forEach(goal =>{
         let goalDate = new Date(goal.date);
         while (goalDate.getFullYear() === startDate.getFullYear()) {
             if(goalDate >= startDate){
-                timePush(timeline, goalDate, -(Math.floor(goal.amount/12)), 'year');
+                timePush(timeline, goalDate, goal.name, -(Math.floor(goal.amount/goal.frequency)), "budget");
             }
-            goalDate.setDate(goalDate.getDate() + goal.frequency);
+            goalDate.setMonth(goalDate.getMonth() + 1);
         }
     })
     const targetData = filterByMonthAndYear(timeline, month, year)

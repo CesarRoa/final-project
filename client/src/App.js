@@ -10,12 +10,15 @@ import Registration from "./Components/Registration";
 import AddTag from "./Components/AddTag";
 import DataProcess from "./Components/DataProcess";
 import Reset from "./Components/Reset";
-import { useContext, useEffect} from "react";
+import { useContext, useEffect, useState} from "react";
 import { UserContext } from "./Components/Context";
 import CreateAccount from "./Components/Login";
+import Loading from "./Loading"
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true)
   const {user, setUser} = useContext(UserContext)
+
 
   useEffect(() => {
     const verifyStoredToken = async () => {
@@ -30,6 +33,7 @@ const App = () => {
                 const data = await response.json();
                 if (data) {
                     setUser(data); // Update your user context.
+                    setIsLoading(false);
                 }
             } catch (error) {
                 console.error("Failed to verify token:", error);
@@ -44,7 +48,10 @@ const App = () => {
     <Router>
       <GlobalStyles/>
       <Header user = {user} setUser = {setUser}/>
-      <>
+        {isLoading?
+        <Loading/>
+        :
+          <>
         <Routes>
           <Route path = "/" element = {!user? <Signin/> : <Home user = {user}/>}/>
           <Route path = "/newAccount" element = {<CreateAccount/>}/>
@@ -56,6 +63,7 @@ const App = () => {
           <Route path="/resetPassword" element = {<Reset/>}/>
         </Routes>
       </>
+      }
       <Footer/>
     </Router>
   );

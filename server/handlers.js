@@ -12,29 +12,7 @@ const options = {
 
 const client = new MongoClient(MONGO_URI, options);
 
-// PASS
-const test = async (req, res)=>{
-    try {
-        await client.connect();
-        const db = client.db("budgeturself");
-    
-        const users = await db.collection("users").find().toArray();
-        const check = [...users];
-        const response =  check.map(user => {
-            const {security, ...rest} = user;
-            return rest
-        });
-        return res.status(200).json({
-            data: response,
-            status: 200,
-        });
-    }
-    catch(error){
-
-    }
-}
-
-// PASS
+// Authenticate user w pwd
 const signin = async (req, res)=>{
     const body = req.body
     const targetUser = body.username
@@ -149,84 +127,25 @@ const deleteAccount = async (req, res) =>{
     }
 }
 
-const addData = async (req, res)=>{
-    try{
-        const username = req.params.user;
-        const year = req.params.year;
-        const month = req.params.month;
-
-        await client.connect();
-        const db = client.db("budgeturself");
-        const users = db.collection('users');
-
-        const findTarget = await users.findOne({"security.username": username});
-        const check1 = findTarget.historical[0][year][month]
-
-        return res.status(200).json({
-            status:'Success!',
-            data: {username, year, month},
-            target: check1
-        })
-    }
-    catch(err){
-
-    }
-}
-
-const loginTest = async (req, res) =>{
-    const body = req.body
-    const targetUser = body.username    
-    const targetPassword = body.password
-    try {
-        await client.connect();
-        const db = client.db("budgeturself");
-        const users = db.collection("users");
-        const profile = await users.findOne({"security.username": targetUser});
-        if (!profile){
-            return res.status(400).json({
-                status: 400,
-                message: "no username was found in db",
-                username: targetUser
-            });
-        };
-        if(targetPassword !== profile.security.password){
-                return res.status(400).json({
-                    status: 400,
-                    message: "wrong password",
-                    password: targetPassword,
-                });
-            };
-        const {security, ...rest} = profile
-        const token = jwt.sign({ userId: profile._id }, TEST_TOKEN);
-
-        return res.status(200).json({
-            data: rest,
-            status: 200
-            // token: token, // Include the generated token in the response
-        });
-    }
-    catch(error){
-        console.log(error.message)
-    }
-}
-
+// authorice Token midware
 const authenticateToken = (req, res, next) =>{
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]; //Bearer TOKEN
     if (token == null) return res.status(401).json({
         message: "Access denied"
-    }); //user has no access
+    }); 
 
     jwt.verify(token, process.env.TEST_TOKEN, (err, user)=>{
         if (err) return res.status(403).json({
             message: "token no longer valid",
             token: token
-        }); // user has no access bcs token is not longer valid
+        }); 
         req.user = user
         next()
     })
 }
 
+// verify token
 const verifyToken = async (req, res)=> {
     let _id = req.user._id
     try {
@@ -246,13 +165,61 @@ const verifyToken = async (req, res)=> {
     }
 }
 
+// add historical data
+const addHistoryData = async (req, res)=>{
+    const data = req.body;
+    try{
+        const username = req.params.username;
+        const year = req.params.year;
+        const month = req.params.month;
+
+        await client.connect();
+        const db = client.db("budgeturself");
+        const users = db.collection('users');
+        const profile = await users.findOne({"security.username": username});
+        if (!profile){
+            return res.status(400).json({
+                status: 400,
+                message: "no username was found in db",
+                username: username
+            });
+        };
+
+        const check1 = await users.findOne({[`historical.${year}.${month}`]:{$exists:true}});
+        if (check1){
+            return res.status(400).json({
+                status: 400,
+                message: "month data already exist",
+            });
+        }
+        const object = {
+            [year]:{
+                [month]:{
+                    data: data.points,
+                    balance: data.balance}
+                }
+        }
+        const addData = await users.updateOne(
+            {"security.username" : username}, {$set:{historical:object}}
+        );
+        return res.status(200).json({
+            status:'Success!',
+            data: {username, year, month},
+            target: object,
+            process: addData,
+            message: `Data from ${month}/${year} was save successfully`
+        })
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
 module.exports={
-    test,
     signin,
     newAccount,
     deleteAccount,
-    addData,
-    loginTest,
     authenticateToken,
-    verifyToken
+    verifyToken,
+    addHistoryData
 }
