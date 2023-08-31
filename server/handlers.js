@@ -200,7 +200,7 @@ const addHistoryData = async (req, res)=>{
                 }
         }
         const addData = await users.updateOne(
-            {"security.username" : username}, {$set:{historical:object}}
+            {"security.username" : username}, {$set:{[`historical.${year}.${month}`]: object[year][month]}}
         );
         return res.status(200).json({
             status:'Success!',

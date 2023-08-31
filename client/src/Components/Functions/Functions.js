@@ -16,6 +16,17 @@ export const generateMonthData = (year, month) => {
     return monthData;
 };
 
+export const getPreviousMonth = (month) => {
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    let index = months.indexOf(month);
+
+    if (index <= 0) {
+        index = 12;
+    }
+
+    return months[index - 1];
+}
 export const timePush = (arr, date, name, amount, tag) =>{
     return arr.push({ 
         date: date.toISOString().split('T')[0], 
@@ -160,4 +171,56 @@ export const Basic = (data, month, year) => {
     })
     const targetData = filterByMonthAndYear(timeline, month, year)
     return (targetData)
+}
+
+export const ProcessData = (data, year, month) => {
+    let checkHistory =  data.data.historical && data.data.historical[year][month]
+
+    let points = null
+    if (!checkHistory){
+        let timePoints = Basic(data, month, year);
+
+        let balance = 0;
+        let checkPreviousBalance = data.data.historical?.[year]?.[getPreviousMonth(month)]?.balance
+        if(checkPreviousBalance){
+            balance = checkPreviousBalance
+        }
+
+        const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
+
+        const getOrdinalSuffix = (num) => {
+            if (num > 3 && num < 21) return 'th';
+            switch (num % 10) {
+                case 1: return 'st';
+                case 2: return 'nd';
+                case 3: return 'rd';
+                default: return 'th';
+                }
+            };
+
+        timePoints.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        points = timePoints.map((point)=>{
+            if (point.type === 'starting balance') {
+                balance = point.amount;
+            } else {
+                balance += point.amount;
+            }
+            const dateObj = new Date(point.date + 'T00:00:00Z');
+            const dayOfWeek = daysOfWeek[dateObj.getUTCDay()];
+            const dayOfMonth = dateObj.getUTCDate();
+            const ordinalSuffix = getOrdinalSuffix(dayOfMonth);
+            
+        return {
+            x: `${dayOfWeek}-${dayOfMonth}${ordinalSuffix}`, 
+            y: balance,
+            date: point.date,
+            name: point.name,
+            amount: point.amount,
+            tag: point.tag
+        };
+        })
+    } else if(checkHistory){
+        return points = checkHistory.data
+    }
 }

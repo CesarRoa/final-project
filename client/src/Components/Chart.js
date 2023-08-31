@@ -1,14 +1,17 @@
 import { styled } from "styled-components";
-import { useState, useEffect } from "react";
-import {VictoryChart, VictoryLine, VictoryScatter, VictoryTheme, VictoryTooltip} from 'victory';
-import { Basic, getMonthName} from "./Functions/Functions";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "./Context";
+import { VictoryChart, VictoryLine, VictoryScatter, VictoryTheme, VictoryTooltip } from 'victory';
+import { ProcessData, getMonthName} from "./Functions/Functions";
 import {FetchData} from "./Fetch/handlers"
 import Loading from "../Loading";
+
 const Chart = ({data}) =>{
+    const {update, setUpdate} = useContext(UserContext)
     const [month, setMonth] = useState(new Date().getMonth());
     const [year, setYear] = useState(new Date().getFullYear());
     const [isLoading, setIsLoading] = useState(true)
-    
+
     const months = [
         'January',
         'February',
@@ -28,86 +31,51 @@ const Chart = ({data}) =>{
     const startingDate = data.data.basicInfo.memberSince;
     const startingMemberYear = startingDate.split("-")[0]
     const startYear = Number(startingMemberYear);
-    const endYear = startYear;
+    const endYear = new Date().getFullYear()
     const years = Array.from({ length: (endYear - startYear + 1) }, (_, index) => startYear + index);
-    
-    const firstMonth = getMonthName(startingDate)
 
+    // set options only to available months since starting the app
     const currentMonthIndex = new Date().getMonth()
     const startingMonthIndex = startingDate.split("-")[1]
-    
     const activeMonths = months.slice(startingMonthIndex-1,currentMonthIndex+1)
-    
+
     useEffect(()=>{
-        const year = startingDate.split("-")[0]
+        const year = startYear
         const month = getMonthName(startingDate)
         setMonth(month)
         setYear(year)
         setIsLoading(false)
     },[])
-    
-    let checkHistory =  data.data.historical && data.data.historical[year][month]
 
-    let points = null
-    if (!checkHistory){
-        let timePoints = Basic(data, month, year);
-        
-        let balance = 0;
-        
-        const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
-        
-        const getOrdinalSuffix = (num) => {
-            if (num > 3 && num < 21) return 'th';
-            switch (num % 10) {
-                case 1: return 'st';
-        case 2: return 'nd';
-        case 3: return 'rd';
-        default: return 'th';
+    useEffect(()=>{
+        const saveData = async () => {
+            const lastPoint = points.length;
+            let saveObject
+            if (lastPoint > 0) {
+                const balanceMonth = points[lastPoint-1].y;
+                saveObject = {
+                    points: points,
+                    balance: balanceMonth
+                }
+            }
+            try{
+                await FetchData(saveObject, username, year, month)
+                .then(res => console.log(res))
+            }
+            catch(err){
+                console.log(err)
+            }
         }
-    };
+        if (!data.data.historical?.[year]?.[month]) {
+            (async () => {
+                await saveData();
+            })();
+        }
+    },[month])
 
-    timePoints.sort((a, b) => new Date(a.date) - new Date(b.date));
+    let points = ProcessData(data, year, month)
 
-    points = timePoints.map((point)=>{
-        if (point.type === 'starting balance') {
-            balance = point.amount;
-        } else {
-            balance += point.amount;
-        }
-        const dateObj = new Date(point.date + 'T00:00:00Z');
-        const dayOfWeek = daysOfWeek[dateObj.getUTCDay()];
-        const dayOfMonth = dateObj.getUTCDate();
-        const ordinalSuffix = getOrdinalSuffix(dayOfMonth);
-        
-        return {
-            x: `${dayOfWeek}-${dayOfMonth}${ordinalSuffix}`, 
-            y: balance,
-            date: point.date,
-            name: point.name,
-            amount: point.amount,
-            tag: point.tag
-        };
-        })
-    } else if(checkHistory){
-        points = checkHistory.data
-    }
-    const saveData = async () => {
-        const lastPoint= points.length
-        const balanceMonth = points[lastPoint-1].y
-        const saveObject = {
-            points: points,
-            balance: balanceMonth
-        }
-        try{
-            await FetchData(saveObject, username, year, month)
-            .then(res => console.log(res))
-        }
-        catch(err){
-            console.log(err)
-        }
-    }
-
-const handleChange = (e) =>{
+    const handleChange = (e) =>{
     let target = e.target.name
         if(target === "month"){
             setMonth(e.target.value)
@@ -123,12 +91,6 @@ const handleChange = (e) =>{
         <Loading/>:
         <>
             Chart
-            <button
-            onClick={saveData}
-            
-            >
-                Update
-            </button>
             <select
             value = {month}
             name = "month"

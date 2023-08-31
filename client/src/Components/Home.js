@@ -12,15 +12,10 @@ const Home = ({user}) =>{
     const handleClickHitorical = ()=>{
         navigate(`/${profile.username}/historical`)
     }
-    const handleClickTable = ()=>{
-        navigate(`/${profile.username}/table`)
-    }
     const handleClickAdd = ()=>{
         navigate(`/${profile.username}/add`)
     }
-    const handleClickData = ()=>{
-        navigate(`/${profile.username}/dataProcess`)
-    }
+
 return(
     <Div>
         <Div1>
@@ -39,14 +34,6 @@ return(
         onClick={handleClickHitorical}
         >History
         </button>
-        <button
-        onClick={handleClickData}
-        >Data Process
-        </button>
-        {/* <button
-        onClick={handleClickTable}
-        >Table
-        </button> */}
         </Div3>
         <Div4>
         <Chart data = {user}/>

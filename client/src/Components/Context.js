@@ -4,10 +4,12 @@ export const UserContext = createContext(null);
 
 export const UserDataProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [update, setUpdate] = useState(false)
+
     return (
     <UserContext.Provider
         value={{
-        user, setUser
+        user, setUser, update, setUpdate
         }}
     >
     {children}
