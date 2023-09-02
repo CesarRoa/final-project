@@ -330,10 +330,10 @@
             "password": "2"
         },
         "user":{
-            "username": "joedoe00",
+            "username": "joedoe02",
             "fName":"Joe",
             "lName": "Doe",
-            "email":"joedoe00@aol.com",
+            "email":"joedoe02@aol.com",
             "phone": 54102315670
         },
         "basicInfo":{

@@ -1,10 +1,14 @@
 import { styled } from "styled-components";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Profile from "./Profile"
 import Chart from "./Chart";
 import Search from "./Search";
+import Form from "./Form";
 
 const Home = ({user}) =>{
+    const [form, setForm] = useState(false)
+
     const data = user.data
     const profile = data.profile
 
@@ -24,10 +28,8 @@ return(
         </Div1>
         <Div2>
             Calculator
-        <button
-        onClick={handleClickAdd}
-        >Add Entry
-        </button>
+            <button onClick={()=>{setForm(true)}}>Add</button>
+        {form && <Form setForm = {()=>{setForm(false)}}/>}
         </Div2>
         <Div3>
         <button

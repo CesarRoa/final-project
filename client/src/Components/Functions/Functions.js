@@ -101,25 +101,24 @@ export const filterByMonthAndYear =(arr, month, year) =>{
 }
 
 export const Basic = (data, month, year) => {
-    const {data:{basicInfo, profile, historical, _id}} = data;
+    const {data:{basicInfo, ...rest}} = data; // defining raw data and extracting only basicInfo object
     const {memberSince, currentAmount, monthlyExpenses, monthlyIncome, yearExpenses} = basicInfo;
-    
-    const test = `${month} ${year}`
-    const startDate = changeDate(memberSince)
-    const calculatedDate = formatDate(test)
-    const targetDate = changeDate(calculatedDate)
+    const dateReq = `${month} ${year}`
+    const startDate = changeDate(memberSince) // fully date format
+    const calculatedDate = formatDate(dateReq) // requested date
+    const targetDate = changeDate(calculatedDate) // fully requested date format
 
     // storing array
 
     let timeline = [];
     timePush(timeline, startDate, "Balance", currentAmount, "balance")
-    
+
     // add income per month
-    
+
     const income = monthlyIncome;
     const incomeStartDay = changeDate(income.date)
     const lastDayOfMonth = new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0);
-    
+
     let increment = 0;
     switch (income.frequency) {
     case 1:
@@ -140,11 +139,10 @@ export const Basic = (data, month, year) => {
     }
     
     // monthly expenses
-
     monthlyExpenses.forEach(category =>{
         category.expenses.forEach(expense =>{
             let expenseDate = new Date(expense.date);
-            while (expenseDate.getFullYear() === startDate.getFullYear()) {
+            while (expenseDate.getFullYear() === startDate.getFullYear() && expenseDate <= lastDayOfMonth) {
                 if (expenseDate >= startDate) {
                     timePush(timeline, expenseDate, expense.name, -Math.floor(expense.amount/expense.frequency), category.tag );
                 }
@@ -162,32 +160,44 @@ export const Basic = (data, month, year) => {
 
     yearExpenses.forEach(goal =>{
         let goalDate = new Date(goal.date);
-        while (goalDate.getFullYear() === startDate.getFullYear()) {
+        while (goalDate.getFullYear() === startDate.getFullYear() && goalDate <= lastDayOfMonth) {
             if(goalDate >= startDate){
                 timePush(timeline, goalDate, goal.name, -(Math.floor(goal.amount/goal.frequency)), "budget");
             }
             goalDate.setMonth(goalDate.getMonth() + 1);
         }
     })
+
     const targetData = filterByMonthAndYear(timeline, month, year)
     return (targetData)
 }
+export const FixData = (data, year, month)=>{
+    return Basic(data, month, year); //call Basic, raw data is used!
 
-export const ProcessData = (data, year, month) => {
-    let checkHistory =  data.data.historical && data.data.historical[year][month]
+}
 
-    let points = null
-    if (!checkHistory){
-        let timePoints = Basic(data, month, year);
-
-        let balance = 0;
-        let checkPreviousBalance = data.data.historical?.[year]?.[getPreviousMonth(month)]?.balance
-        if(checkPreviousBalance){
-            balance = checkPreviousBalance
+export const ProcessData = (data, year, month, previousBalance) => {
+    let checkHistory =  data.data.historical && data.data.historical[year][month] // check historical object for target year/month
+    // let points = null // defining points before calculations
+    // if (!checkHistory){
+        let points = null
+        let timePoints = null
+        if(!checkHistory){
+            timePoints = Basic(data, month, year); //call Basic, raw data is used!
+        }else{
+            timePoints = checkHistory.data
         }
-
+        let balance = 0;
+        if (previousBalance){
+            balance = previousBalance
+        }
+        // let checkPreviousBalance = data.data.historical?.[year]?.[getPreviousMonth(month)]?.balance
+        // if(checkPreviousBalance){
+        //     balance = checkPreviousBalance
+        // }
+        
         const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
-
+        
         const getOrdinalSuffix = (num) => {
             if (num > 3 && num < 21) return 'th';
             switch (num % 10) {
@@ -195,12 +205,12 @@ export const ProcessData = (data, year, month) => {
                 case 2: return 'nd';
                 case 3: return 'rd';
                 default: return 'th';
-                }
-            };
-
-        timePoints.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-        points = timePoints.map((point)=>{
+            }
+        };
+        
+        timePoints && timePoints.sort((a, b) => new Date(a.date) - new Date(b.date));
+        
+        points = timePoints && timePoints.map((point)=>{
             if (point.type === 'starting balance') {
                 balance = point.amount;
             } else {
@@ -211,16 +221,18 @@ export const ProcessData = (data, year, month) => {
             const dayOfMonth = dateObj.getUTCDate();
             const ordinalSuffix = getOrdinalSuffix(dayOfMonth);
             
-        return {
-            x: `${dayOfWeek}-${dayOfMonth}${ordinalSuffix}`, 
-            y: balance,
-            date: point.date,
-            name: point.name,
-            amount: point.amount,
-            tag: point.tag
-        };
+            return {
+                x: `${dayOfWeek}-${dayOfMonth}${ordinalSuffix}`, 
+                y: balance,
+                date: point.date,
+                name: point.name,
+                amount: point.amount,
+                tag: point.tag
+            };
         })
-    } else if(checkHistory){
-        return points = checkHistory.data
-    }
+        return points
+        // console.log(points)
+    // } else if(checkHistory){
+    //     return points = checkHistory.data
+    // }
 }

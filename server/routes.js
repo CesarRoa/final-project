@@ -6,16 +6,30 @@ const{
     deleteAccount,
     authenticateToken,
     verifyToken,
-    addHistoryData
+    addHistoryData,
+    updateEntry,
+    latestData,
+    addEntry,
+    deleteEntry
 }=require("./handlers");
 
 router.post("/api/signin",signin);
 
-router.post("/api/newAccount", newAccount)
-router.delete("/api/deleteAccount/:username", deleteAccount)
+//PENDING
+router.post("/api/newAccount", newAccount);
+//PENDING
+router.delete("/api/deleteAccount/:username", deleteAccount);
 
-router.get("/api/verify", authenticateToken, verifyToken)
+router.get("/api/verify", authenticateToken, verifyToken);
 
-router.post("/api/addHistory/:username/:year/:month", addHistoryData)
+router.post("/api/addHistory/:username/:year/:month", addHistoryData);
+
+router.patch("/api/update/:username/:date", authenticateToken, updateEntry);
+
+router.get("/api/getUserData", latestData);
+
+router.post("/api/addEntry/:username/:date", addEntry);
+
+router.delete("/api/delete/:username/:date", authenticateToken, deleteEntry);
 
 module.exports = router;
