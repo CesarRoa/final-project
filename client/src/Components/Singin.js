@@ -5,15 +5,13 @@ import { UserContext } from "./Context";
 import { FetchUser } from "./Fetch/handlers";
 
 const Signin = () =>{
-    /*/ 
+    /*
     1. Context to store data from user. 
     2. States to compare username and password and prompt error in due case.
     3. Ref to focus on inputs.
-    4. navigation to other components as needed.
-    5. 
-
-    /*/
-    const {user, setUser} = useContext(UserContext);
+    4. Navigation to other components as needed.
+    */
+    const {setUser} = useContext(UserContext);
     const userRef = useRef();
     const [errMessage, setErrMessage] = useState("");
     const [name, setName] = useState("");
@@ -72,6 +70,7 @@ return(
                     id="username"
                     ref={userRef}
                     name="username"
+                    className="input-highlight"
                     onChange={(e)=>setName(e.target.value)}
                     >
                     </input>
@@ -86,6 +85,7 @@ return(
                     type="password"
                     id="password"
                     name="password"
+                    className="input-highlight"
                     onChange={(e)=>setPwd(e.target.value)}
                     >
                     </input>
@@ -129,7 +129,6 @@ return(
 export default Signin;
 
 const Wrapper = styled.div`
-/* border: red solid 1px; */
 height: 70vh;
 text-align: center;
 display: flex;
@@ -140,13 +139,11 @@ align-items: center;
 const Div = styled.div`
 height: 500px;
 width: 700px;
-/* border: red solid 1px; */
 text-align: center;
 display: flex;
 flex-direction: column;
 justify-content: space-evenly;
 &.create, &.reset{
-    /* border: red dashed 1px; */
     height: auto;
     width: auto;
     width: 50%;
@@ -165,11 +162,16 @@ border-radius: 15px;
 & > div{
     margin: 50px 0;
     width: auto;
-    /* height: 70px; */
     align-items: center;
     &>input{
         margin-left: 30px;
+        border-radius: 5px;
     }
+    &>#username:focus,  &>.input-highlight:focus {
+    outline: none;
+    border: 1px solid #4A90E2;
+    box-shadow: 0 0 5px #4A90E2;
+}
 }
 `
 const DivOptions = styled.div`

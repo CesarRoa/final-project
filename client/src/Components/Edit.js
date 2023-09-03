@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { useState, useContext, useRef} from "react";
+import { useState, useContext, useRef, useEffect} from "react";
 import { FetchUpdate, FetchDelete } from "./Fetch/handlers";
 import { UserContext } from "./Context";
 
@@ -7,6 +7,11 @@ const Edit = ({rowData, setEdit, FetchLatestData}) => {
     const {user, setUser} =useContext(UserContext)
     const [change, setChange] =useState(rowData)
     const [confirm, setConfirm] =  useState (false);
+    const userRef = useRef();
+
+    useEffect(()=>{
+        userRef.current.focus();
+    },[]);
 
     const username = user.data.profile.username
     const date = change.date
@@ -25,7 +30,6 @@ const Edit = ({rowData, setEdit, FetchLatestData}) => {
             })
             await FetchLatestData()
             .then((res) => {
-                console.log(res)
                 setUser({
                     ...user,
                     data: res
@@ -81,6 +85,7 @@ return (
                     type="number"
                     id="newAmount"
                     name="newAmount"
+                    ref={userRef}
                     onChange={(e)=>{
                         if(change.tag === "passive"){
                             setChange({

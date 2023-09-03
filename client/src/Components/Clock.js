@@ -38,9 +38,6 @@ const Clock = () =>{
 export default Clock;
 
 const Div = styled.div`
-position: absolute;
-right: 17px;
-bottom: 17px;
-border: green dashed 1px;
+position: relative;
 text-align: center;
 `

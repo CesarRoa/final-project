@@ -1,10 +1,11 @@
 import { styled } from "styled-components";
 import BYA from "../images/BYA.png"
-import { useNavigate, useState} from "react-router-dom";
-
+import { useNavigate} from "react-router-dom";
 
 const Header = ({user, setUser}) =>{
-
+    /*
+    1. Sign in / Log out button, if user is define
+    */
     const navigate = useNavigate();
     const handleClick = () =>{
         navigate("/")
@@ -22,7 +23,6 @@ return(
         alt="logo"
         onClick={handleClick}
         />
-        <h1>Header</h1>
         {!user?
             <button
             onClick={handleClick}
@@ -41,7 +41,6 @@ return(
 export default Header;
 
 const Div = styled.div`
-/* border: red solid 1px; */
 border-bottom: 0.2em #5170ff ridge ;
 height: 20vh;
 display: flex;
@@ -51,9 +50,7 @@ padding: 0 15px;
 & h1{
     justify-content: center;
     margin: 50px;
-    
 }
-
 `
 
 const Logo = styled.img`
