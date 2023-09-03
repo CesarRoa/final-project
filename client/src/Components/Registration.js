@@ -12,6 +12,5 @@ export default Registration;
 
 const Div = styled.div`
 height: 500px;
-border: orange solid 1px;
 text-align: center;
 `

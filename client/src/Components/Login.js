@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreateAccount = () =>{
@@ -14,6 +14,15 @@ const CreateAccount = () =>{
     });
     const [userInfo, setUserInfo] = useState({})
 
+    const firstInputRef = useRef(null);
+    useEffect(()=>{
+        if (firstInputRef.current) {
+            firstInputRef.current.focus();
+        }
+    },[]);
+
+
+
     const navigate = useNavigate();
     const register = [
         {name: "username", label: "User Name", type: "text", placeholder:"joedoe12", function:{}},
@@ -21,8 +30,6 @@ const CreateAccount = () =>{
         {name: "lastname", label: "Last Name", type: "text", placeholder:"Doe", function:{}}, 
         {name: "email", label: "E-Mail", type: "email", placeholder:"joedoe12@aol.com", function:{}}, 
         {name: "phone", label: "Phone Number", type: "number", placeholder:"101 100 1011", function:{}}, 
-        // {name: "city", label: "City", type: "text", placeholder:"Your City", function:{}}, 
-        // {name: "postalcode", label: "Postal Code", type: "text", placeholder:"X0X 0X0", function:{}},
         {name: "password", label: "Password", type: "password", placeholder:"123456", function:{}}, 
         {name: "confirmPassword", label: "Confirm Password", type: "password", placeholder:"123456", function:{}}
     ];
@@ -52,20 +59,21 @@ const CreateAccount = () =>{
             navigate(`/newAccount/${username}/registration`)
         }
     }
-    console.log(userInfo)
+    console.log("wip, got userInfo before")
 return(
     <Wrapper>
         <Form
         onSubmit={handleSubmit}
         >
-            {register.map((item)=>{
+            {register.map((item, index)=>{
                 return (
                     <div key={item.name}>
                     <label>{item.label}</label>
                     <input 
-                    // value={item.name} 
                     type= {item.type} 
                     placeholder={item.placeholder} 
+                    className="input-highlight"
+                    ref={index === 0 ? firstInputRef : null}
                     onChange={
                         item.name === 'username'
                         ? handleUsernameChange
@@ -123,7 +131,6 @@ return(
 export default CreateAccount;
 
 const Wrapper = styled.div`
-border: red solid 1px;
 height: 70vh;
 text-align: center;
 display: flex;
@@ -137,7 +144,6 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-border: red dashed 1px;
 height:80%;
 width:100vw;
 &>div{
@@ -145,6 +151,15 @@ width:100vw;
     display: inline-flex;
     justify-content:space-between;
     margin-bottom: 0.5em;
+    &>input{
+        margin-left: 30px;
+        border-radius: 5px;
+    }
+    &>#username:focus,  &>.input-highlight:focus {
+    outline: none;
+    border: 1px solid #4A90E2;
+    box-shadow: 0 0 5px #4A90E2;
+    }
 }
 &>button{
     margin-top: 1em ;
@@ -158,7 +173,6 @@ position: absolute;
 right: 80px;
 color: red;
 align-items: center;
-border: 1px red solid;
 `
 
 const Div2 = styled.div`

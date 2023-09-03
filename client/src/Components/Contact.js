@@ -1,15 +1,15 @@
 import { styled } from "styled-components";
-const Reset = ({}) =>{
+const Contact = ({}) =>{
     return(
     <Div>
         <h1>
-        Reset (WIP)
+        Contact (WIP)
         </h1>
     </Div>
 )
 };
 
-export default Reset;
+export default Contact;
 
 const Div = styled.div`
 border: red solid 1px;

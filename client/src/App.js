@@ -8,6 +8,7 @@ import Footer from "./Components/Footer";
 import Registration from "./Components/Registration";
 import AddTag from "./Components/AddTag";
 import Reset from "./Components/Reset";
+import Contact from "./Components/Contact"
 import { useContext, useEffect, useState} from "react";
 import { UserContext } from "./Components/Context";
 import CreateAccount from "./Components/Login";
@@ -31,7 +32,7 @@ const App = () => {
                 });
                 const data = await response.json();
                 if (data) {
-                    setUser(data); // Update your user context.
+                    setUser(data);
                 }
             } catch (error) {
                 console.error("Failed to verify token:", error);
@@ -60,6 +61,7 @@ const App = () => {
           <Route path = "/:account/add"  element={<AddTag />} />
           <Route path = "/newAccount/:account/registration" element ={<Registration/>} />
           <Route path = "/resetPassword" element = {<Reset/>}/>
+          <Route path = "/contactUs" element = {<Contact/>}/>
         </Routes>
         </>
       }

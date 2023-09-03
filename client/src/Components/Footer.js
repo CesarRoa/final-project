@@ -1,14 +1,23 @@
 import { styled } from "styled-components";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Clock from "./Clock";
 import Terms from "./Terms";
 
 const Footer = () =>{
     const [visible, setVisible] = useState(false)
 
+    const navigate = useNavigate();
+
+    const handleClick = () =>{
+        navigate("/contactUs");
+    };
+
     return(
     <Div>
-        <button>
+        <button
+        onClick={handleClick}
+        >
             Contact Us
         </button>
         <Clock/>
