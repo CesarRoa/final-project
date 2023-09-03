@@ -129,6 +129,8 @@ return(
 export default Signin;
 
 const Wrapper = styled.div`
+position: relative;
+top: 150px;
 height: 70vh;
 text-align: center;
 display: flex;
@@ -137,8 +139,6 @@ justify-content: space-evenly;
 align-items: center;
 `
 const Div = styled.div`
-position: relative;
-top: 150px;
 height: 500px;
 width: 700px;
 text-align: center;

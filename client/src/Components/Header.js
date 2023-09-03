@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import BYA from "../images/BYA.png"
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const Header = ({user, setUser}) =>{
     /*
@@ -14,6 +15,7 @@ const Header = ({user, setUser}) =>{
     const logOut = () =>{
         setUser(null);
         localStorage.clear()
+        navigate("/")
     }
 
 return(
@@ -52,7 +54,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 0 15px;
-z-index: 100;
+z-index: 10;
 & h1{
     justify-content: center;
     margin: 50px;

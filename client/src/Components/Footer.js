@@ -48,7 +48,7 @@ border-top: #ff66c4 ridge 0.2em;
 height: 9vh;
 text-align: center;
 align-items:center;
-z-index:1;
+z-index:10;
 &>button{
     margin-left: 50px;
 }

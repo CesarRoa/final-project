@@ -131,6 +131,8 @@ return(
 export default CreateAccount;
 
 const Wrapper = styled.div`
+position: relative;
+top: 150px;
 height: 70vh;
 text-align: center;
 display: flex;

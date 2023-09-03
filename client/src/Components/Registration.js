@@ -11,6 +11,8 @@ const Registration = () =>{
 export default Registration;
 
 const Div = styled.div`
+position: relative;
+top: 150px;
 height: 500px;
 text-align: center;
 `
