@@ -26,28 +26,29 @@ export const getPreviousMonth = (month) => {
     }
 
     return months[index - 1];
-}
+};
+
 export const timePush = (arr, date, name, amount, tag) =>{
     return arr.push({ 
         date: date.toISOString().split('T')[0], 
         name: name, 
         amount: amount, 
         tag: tag 
-    })
-}
+    });
+};
 
 export const changeDate = (date) =>{
     const newDate =  new Date(date + "T00:00:00Z");
     newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
     return newDate
-}
+};
 
 export const getMonthName = (dateString) => {
     const [year, month, day] = dateString.split('-').map(Number);
     const date = new Date(year, month - 1, day);
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return monthNames[date.getMonth()];
-}
+};
 
 export const formatDate =(dateString) => {
     const monthMapping = {
@@ -98,7 +99,7 @@ export const filterByMonthAndYear =(arr, month, year) =>{
         const dateObj = new Date(Date.UTC(y, m - 1, d));
         return dateObj.getUTCMonth() === monthIndex && dateObj.getUTCFullYear() === Number(year);
     });
-}
+};
 
 export const Basic = (data, month, year) => {
     const {data:{basicInfo, ...rest}} = data; // defining raw data and extracting only basicInfo object
@@ -132,11 +133,11 @@ export const Basic = (data, month, year) => {
         break;
     default:
         increment = targetDate;
-    }
+    };
     
     for(let day = incomeStartDay; day <= lastDayOfMonth; day.setDate(day.getDate() + increment)){
         timePush (timeline, day, income.name, income.amount, income.tag)
-    }
+    };
     
     // monthly expenses
     monthlyExpenses.forEach(category =>{
@@ -147,9 +148,9 @@ export const Basic = (data, month, year) => {
                     timePush(timeline, expenseDate, expense.name, -Math.floor(expense.amount/expense.frequency), category.tag );
                 }
                 expenseDate.setDate(expenseDate.getDate() + expense.frequency * 30);
-            }
-        })
-    })
+            };
+        });
+    });
     timeline.sort((a, b) => {
         if (a.date > b.date) return 1;
         if (a.date < b.date) return -1;
@@ -163,23 +164,23 @@ export const Basic = (data, month, year) => {
         while (goalDate.getFullYear() === startDate.getFullYear() && goalDate <= lastDayOfMonth) {
             if(goalDate >= startDate){
                 timePush(timeline, goalDate, goal.name, -(Math.floor(goal.amount/goal.frequency)), "budget");
-            }
+            };
             goalDate.setMonth(goalDate.getMonth() + 1);
-        }
-    })
+        };
+    });
 
-    const targetData = filterByMonthAndYear(timeline, month, year)
-    return (targetData)
-}
+    const targetData = filterByMonthAndYear(timeline, month, year);
+    return (targetData);
+};
+
 export const FixData = (data, year, month)=>{
-    return Basic(data, month, year); //call Basic, raw data is used!
+    return Basic(data, month, year); // call Basic, raw data is used!
 
-}
+};
 
 export const ProcessData = (data, year, month, previousBalance) => {
     let checkHistory =  data.data.historical && data.data.historical[year][month] // check historical object for target year/month
-    // let points = null // defining points before calculations
-    // if (!checkHistory){
+
         let points = null
         let timePoints = null
         if(!checkHistory){
@@ -191,10 +192,6 @@ export const ProcessData = (data, year, month, previousBalance) => {
         if (previousBalance){
             balance = previousBalance
         }
-        // let checkPreviousBalance = data.data.historical?.[year]?.[getPreviousMonth(month)]?.balance
-        // if(checkPreviousBalance){
-        //     balance = checkPreviousBalance
-        // }
         
         const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
         
@@ -231,8 +228,13 @@ export const ProcessData = (data, year, month, previousBalance) => {
             };
         })
         return points
-        // console.log(points)
-    // } else if(checkHistory){
-    //     return points = checkHistory.data
-    // }
-}
+
+};
+
+export const newDateToYYYY = (date)=>{
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+};

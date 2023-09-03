@@ -47,6 +47,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 0 15px;
+z-index: 1;
 & h1{
     justify-content: center;
     margin: 50px;

@@ -79,5 +79,4 @@ const Div3 = styled.div`
 const Div4 = styled.div`
     grid-column: 2 / span 1;
     grid-row: 2 / span 3;
-    border: purple solid 1px;
 `

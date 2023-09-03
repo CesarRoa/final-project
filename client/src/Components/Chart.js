@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "./Context";
 import { VictoryChart, VictoryLine, VictoryScatter, VictoryTheme, VictoryTooltip } from 'victory';
-import { ProcessData, Basic, FixData, getMonthName, getPreviousMonth} from "./Functions/Functions";
+import { ProcessData, FixData, getMonthName, getPreviousMonth, newDateToYYYY} from "./Functions/Functions";
 import {FetchData} from "./Fetch/handlers"
 import Loading from "../Loading";
 
@@ -12,8 +12,8 @@ const Chart = ({data}) =>{
     const [year, setYear] = useState(new Date().getFullYear());
     const [isLoading, setIsLoading] = useState(true)
 
-    const {data:{basicInfo, ...rest}} = data; // defining raw data and extracting only basicInfo object
-    const {memberSince, currentAmount, monthlyExpenses, monthlyIncome, yearExpenses} = basicInfo;
+    const {data:{basicInfo, ...restData}} = data; // defining raw data and extracting only basicInfo object
+    const {memberSince, ...restInfo} = basicInfo;
 
     const months = [
         'January',
@@ -31,7 +31,7 @@ const Chart = ({data}) =>{
     ];
 
     const username = data.data.profile.username
-    const startingDate = data.data.basicInfo.memberSince;
+    const startingDate = memberSince;
     const startingMemberYear = startingDate.split("-")[0] //2023 as a string
     const startYear = Number(startingMemberYear); //2023 as a number
     const endYear = new Date().getFullYear() // current year
@@ -41,6 +41,9 @@ const Chart = ({data}) =>{
     const currentMonthIndex = new Date().getMonth() // current month
     const startingMonthIndex = startingDate.split("-")[1] // month when user is member of app
     const activeMonths = months.slice(startingMonthIndex-1,currentMonthIndex+1) // enlisted months 
+    
+    const date = new Date()
+    const currentDate = newDateToYYYY(date) //toFix
 
     useEffect(()=>{
         const year = startYear // 2023
@@ -50,34 +53,32 @@ const Chart = ({data}) =>{
         setIsLoading(false) 
     },[])
 
-    // useEffect(()=>{
-    //     const saveData = async () => {
-    //         const lastPoint = points?.length;
-    //         let saveObject
-    //         if (lastPoint > 0) {
-    //             const balanceMonth = points[lastPoint-1]?.y;
-    //             saveObject = {
-    //                 points: saveMonthData,
-    //                 balance: balanceMonth
-    //             }
-    //         }
-    //         try{
-    //             await FetchData(saveObject, username, year, month)
-    //             .then(res => console.log(res))
-    //         }
-    //         catch(err){
-    //             console.log(err)
-    //         }
-    //     }
-    //     if (!data.data.historical?.[year]?.[month]) {
-    //         (async () => {
-    //             await saveData();
-    //         })();
-    //     }
-    // },[month])
+    let saveMonthData = FixData(data, year, month)
 
-    let saveMonthData = FixData(data, year, month) //call ProcessData function with 3 params. passing whole data received from POST fetch
-
+    useEffect(()=>{
+        const saveData = async () => {
+            const lastPoint = points?.length;
+            let saveObject
+            if (lastPoint > 0) {
+                const balanceMonth = points[lastPoint-1]?.y;
+                saveObject = {
+                    points: saveMonthData,
+                }
+            }
+            try{
+                await FetchData(saveObject, username, year, month)
+                .then(res => console.log(res))
+            }
+            catch(err){
+                console.log(err)
+            }
+        }
+        if (!data.data.historical?.[year]?.[month]) {
+            (async () => {
+                await saveData();
+            })();
+        }
+    },[month])
 
     const prevMonth = getPreviousMonth(month);
     let prevMonthBalance;
@@ -85,11 +86,10 @@ const Chart = ({data}) =>{
     if (balances && balances.hasOwnProperty(prevMonth)) {
         prevMonthBalance = balances[prevMonth];
     } else {
-        prevMonthBalance = 0; // or any other default value or logic you want to apply
+        prevMonthBalance = 0; 
     }
 
     let points = ProcessData(data, year, month, prevMonthBalance);
-    // let points = ProcessData(data, year, month, balances[getPreviousMonth(month)])
 
     const handleChange = (e) =>{
     let target = e.target.name
@@ -115,42 +115,57 @@ const Chart = ({data}) =>{
                 [month]: balanceMonth
             })
         }
-    }, [month])
+    }, [month]);
+
+    const segmentColor = (datum, currentDate) => {
+        if (!datum || !datum.date) {
+            return "#5170ff"; // Default color if the datum does not contain a date
+        }
+    
+        const currentSegmentDate = new Date(datum.date);
+        return currentSegmentDate > currentDate ? "#ff66c4" : "#5170ff";
+    };
+
 
     return(
     <>
         {isLoading?
         <Loading/>:
         <>
-            Chart
-            <select
-            value = {month}
-            name = "month"
-            onChange = {handleChange}
-            >
-                {activeMonths.map(month =>(
-                    <option
-                    key={month} 
-                    value={month}
-                    >
-                    {month}
-                </option>
-                ))}
+            <Div>
+                <span>Month:</span>
+                <select
+                value = {month}
+                name = "month"
+                onChange = {handleChange}
+                >
+                    {activeMonths.map(month =>(
+                        <option
+                        key={month} 
+                        value={month}
+                        >
+                        {month}
+                    </option>
+                    ))}
+                    </select>
+                    <span>Year:</span>
+                <select
+                value = {year}
+                name = "year"
+                onChange = {handleChange}
+                >
+                    {years.map(year => (
+                        <option 
+                        key={year} 
+                        value={year}
+                        >
+                    {year}
+                    </option>
+                    ))}
                 </select>
-            <select
-            value = {year}
-            name = "year"
-            onChange = {handleChange}
-            >
-                {years.map(year => (
-                    <option 
-                    key={year} 
-                    value={year}
-                    >
-                {year}
-                </option>
-                ))}
-            </select>
+                <span>Balance: </span>
+                <p>{balanceMonth.toLocaleString('en-US')} CAD</p>
+            </Div>
             <VictoryChart 
             theme={VictoryTheme.material}
             width={600}
@@ -158,14 +173,17 @@ const Chart = ({data}) =>{
             >
                 <VictoryLine 
                     style={{
-                        data: { stroke: "#c43a31" },
+                        data: { 
+                            stroke: (datum) => segmentColor(datum, new Date(currentDate)), 
+                            strokeDasharray: (datum) => segmentColor(datum, new Date(currentDate)) === "#ff66c4" ? "4,5" : ""
+                        },
                         parent: { border: "1px solid #ccc" }
                     }}
                     data={points}
-                    />
+                />
                 <VictoryScatter
                     style={{
-                        data: { fill: "#c43a31" },
+                        data: { fill: "#ff66c4" },
                         parent: { border: "1px solid #ccc" }
                     }}
                     size={5}
@@ -226,3 +244,12 @@ const Chart = ({data}) =>{
 
 export default Chart;
 
+const Div = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 5px;
+&>select{
+    margin-right: 50px;
+}
+`
