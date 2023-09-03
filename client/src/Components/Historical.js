@@ -6,7 +6,6 @@ import { getMonthName, ProcessData, getPreviousMonth} from "./Functions/Function
 import React from "react";
 import Loading from "../Loading";
 import {LuEdit3} from "react-icons/lu"
-import {RiDeleteBack2Line} from "react-icons/ri"
 import Form from "./Form";
 import Edit from "./Edit";
 import {FetchLatestData} from "./Fetch/handlers"
@@ -18,8 +17,6 @@ const Historical = ({user}) =>{
     const [isLoading, setIsLoading] = useState(true)
     const [table, setTable] = useState([])
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [isEditingRowId, setIsEditingRowId] = useState(null);
     const [editedRowValues, setEditedRowValues] = useState({});
 
     const [form, setForm] = useState(false)
@@ -72,14 +69,12 @@ const Historical = ({user}) =>{
         if (balances && balances.hasOwnProperty(prevMonth)) {
             prevMonthBalance = balances[prevMonth];
         } else {
-            prevMonthBalance = 0; // or any other default value or logic you want to apply
+            prevMonthBalance = 0;
         }
     
         let points = ProcessData(user, year, month, prevMonthBalance);
         lastPoint = points?.length;
         balanceMonth = points && points[lastPoint-1]?.y;
-
-        // let points = ProcessData(user, year, month)
 
         let modification = []
 
@@ -171,17 +166,17 @@ const Historical = ({user}) =>{
         {isLoading?
         <Loading/>:
         <>
-            Historical
+        <div>
             <select
                 value = {month}
                 name = "month"
                 onChange = {handleChange}
-            >
+                >
                 {activeMonths.map(month =>(
-                <option
+                    <option
                     key={month} 
                     value={month}
-                >
+                    >
                     {month}
                 </option>
                 ))}
@@ -190,51 +185,52 @@ const Historical = ({user}) =>{
                 value = {year}
                 name = "year"
                 onChange = {handleChange}
-            >
+                >
                 {years.map(year => (
-                <option 
+                    <option 
                     key={year} 
                     value={year}
-                >
+                    >
                     {year}
                 </option>
                 ))}
             </select>
-                <StyledTable {...getTableProps()}>
-                    <thead>
-                        {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map(column => (
-                                    <StyledHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                        {column.render('Header')}
-                                        <span>
-                                            {column.isSorted
-                                                ? column.isSortedDesc
-                                                    ? ' 🔽'
-                                                    : ' 🔼'
-                                                : ''}
-                                        </span>
-                                    </StyledHeader>
-                                ))}
-                            </tr>
+        </div>
+        <StyledTable {...getTableProps()}>
+            <thead>
+                {headerGroups.map(headerGroup => (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroup.headers.map(column => (
+                            <StyledHeader {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                {column.render('Header')}
+                                <span>
+                                    {column.isSorted
+                                        ? column.isSortedDesc
+                                            ? ' 🔽'
+                                            : ' 🔼'
+                                        : ''}
+                                </span>
+                            </StyledHeader>
                         ))}
-                    </thead>
-                    <tbody {...getTableBodyProps()}>
-                        {rows.map(row => {
-                            prepareRow(row);
-                            return (
-                                <StyledRow  {...row.getRowProps()}>
-                                    {row.cells.map(cell => (
-                        <StyledCell  {...cell.getCellProps()}>{cell.render('Cell')}</StyledCell >
-                        ))}
-                        </StyledRow >
-                                );
-                        })}
-                    </tbody>
-                </StyledTable>
-            </>
+                    </tr>
+                ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+                {rows.map(row => {
+                    prepareRow(row);
+                    return (
+                        <StyledRow  {...row.getRowProps()}>
+                            {row.cells.map(cell => (
+                <StyledCell  {...cell.getCellProps()}>{cell.render('Cell')}</StyledCell >
+                ))}
+                </StyledRow >
+                        );
+                })}
+            </tbody>
+        </StyledTable>
+        </>
         }
-        <button onClick={()=>{setForm(true)}}>Add</button>
+        <button onClick={()=>{setForm(true)}}>Add Entry</button>
         {form && <Form setForm = {()=>{setForm(false)}}/>}
         {edit && <Edit rowData={editedRowValues} setEdit={() => { setEdit(false); }} FetchLatestData = {FetchLatestData}/>}
     </Div>
@@ -243,17 +239,45 @@ const Historical = ({user}) =>{
 export default Historical;
 
 const Div = styled.div`
-border: red solid 1px;
-height: 70vh;
+position: relative;
+display: flex;
+flex-direction:column;
+justify-content: center;
+align-items: center;
 text-align: center;
+padding-top: 22vh;
+padding-bottom: 11vh; 
+&>div{
+    position: sticky;
+    top: 20vh;
+    right: 0;
+    left: 0;
+    background-color: white;
+    z-index: 2;
+    width: 100%;
+    height: 50px;
+    display:flex;
+    justify-content: space-around;
+    align-items:center;
+    }
+&>button{
+    margin-top: 20px;
+}
 `
 
 const StyledTable = styled.table`
-    width: 100%;
+    position: relative;
+    width: 80%;
     border-collapse: collapse;
 `;
 
 const StyledHeader = styled.th`
+    position: sticky;
+    top: 25vh;
+    right: 0;
+    left: 0;
+    z-index: 3;
+
     padding: 8px 12px;
     border: 1px solid #ccc;
     background-color: #f5f5f5;
@@ -277,14 +301,5 @@ const StyledEdit = styled(({ isEditing, ...rest }) => <LuEdit3 {...rest} />)`
     color: blue;
     &:hover {
         color: green;
-    }
-`;
-
-const StyledDelete = styled(RiDeleteBack2Line)`
-    color: red; 
-    font-size: 24px; 
-    border: 1px solid red;
-    &:hover {
-        color: orange;
     }
 `;

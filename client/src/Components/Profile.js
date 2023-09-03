@@ -13,9 +13,6 @@ const Profile = ({profile, basicInfo}) =>{
 export default Profile;
 
 const Div = styled.div`
-/* height:300px;
-width : 30%; */
-border: purple dashed 1px;
 &>*{
     margin-bottom:5px;
 }

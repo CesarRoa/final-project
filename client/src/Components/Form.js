@@ -70,7 +70,7 @@ const Form = ({setForm}) => {
             onSubmit={handleSubmit}
             >
                 <div>
-                    <p>Selected Date: {startDate.toDateString()}</p>
+                    <p>Selected Date:</p>
                     <DatePicker 
                         selected={startDate} 
                         onChange={(date) => {
@@ -79,7 +79,6 @@ const Form = ({setForm}) => {
                             const month = String(dateObj.getMonth() + 1).padStart(2, '0');  // Months are 0-indexed, so add 1
                             const day = String(dateObj.getDate()).padStart(2, '0');
                             const formattedDate = `${year}-${month}-${day}`;
-
                             setStartDate(date)
                             setEntry({
                                 ...entry,
@@ -90,9 +89,9 @@ const Form = ({setForm}) => {
                     />
                 </div>
                 <div>
-                    <label>
+                    <p>
                         Name:
-                    </label>
+                    </p>
                     <input
                         type="text"
                         id="name"
@@ -107,11 +106,11 @@ const Form = ({setForm}) => {
                     </input>
                 </div>
                 <div>
-                    <label>
-                        Amount
-                    </label>
+                    <p>
+                        Amount:
+                    </p>
                     <input
-                        type="number"
+                        type="text"
                         
                         id="amount"
                         name="amount"
@@ -124,43 +123,37 @@ const Form = ({setForm}) => {
                     >
                     </input>
                 </div>
-                <div>
-                    <label>
-                        Tag
-                    </label>
+                <div className="divTag">
+                    <p>
+                        Tag:
+                    </p>
                     <label>
                     <input
                     type="radio"
                     value="active"
                     name="tagGroup"
-
                     onChange={handleChange}
                     />
                     Active
-                </label>
-
-                <label>
+                    </label>
+                    <label>
                     <input
                     type="radio"
                     value="passive"
                     name="tagGroup"
-
                     onChange={handleChange}
                     />
                     Passive
-                </label>
-
-                <label>
+                    </label>
+                    <label>
                     <input
                     type="radio"
                     value="budget"
                     name="tagGroup"
-
                     onChange={handleChange}
                     />
                     New Budget
-                </label>
-                
+                    </label>
                 </div>
                 <button>Add Entry</button>
             </form>
@@ -184,10 +177,39 @@ justify-content: center;
 background-color: rgba(0,0,0,0.4);
 `
 const Div = styled.div`
-
+display:flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 border-radius:5px;
 padding: 2rem;
 background-color: white;
 width: 25em;
-
+&>form{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    &>div{
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        &>p{
+            font-weight:bold;
+        }
+        &>input{
+            text-align: center;
+            margin-top: 5px;
+        }
+    }
+    &>.divTag{
+        display:flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
+}
 `

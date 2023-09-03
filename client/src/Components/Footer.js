@@ -36,6 +36,11 @@ const Footer = () =>{
 export default Footer;
 
 const Div = styled.div`
+position: fixed; 
+background-color: white;
+bottom: 0;
+left: 0;
+right: 0;
 display: flex;
 flex-direction: row;
 justify-content: space-around;

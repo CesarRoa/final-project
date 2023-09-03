@@ -6,7 +6,6 @@ import Signin from "./Components/Singin";
 import Historical from "./Components/Historical";
 import Footer from "./Components/Footer";
 import Registration from "./Components/Registration";
-import AddTag from "./Components/AddTag";
 import Reset from "./Components/Reset";
 import Contact from "./Components/Contact"
 import { useContext, useEffect, useState} from "react";
@@ -58,7 +57,6 @@ const App = () => {
           <Route path = "/" element = {!user? <Signin/> : <Home user = {user} />}/>
           <Route path = "/newAccount" element = {<CreateAccount/>}/>
           <Route path = "/:account/historical"  element={<Historical user = {user}/>} />
-          <Route path = "/:account/add"  element={<AddTag />} />
           <Route path = "/newAccount/:account/registration" element ={<Registration/>} />
           <Route path = "/resetPassword" element = {<Reset/>}/>
           <Route path = "/contactUs" element = {<Contact/>}/>

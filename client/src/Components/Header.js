@@ -41,13 +41,18 @@ return(
 export default Header;
 
 const Div = styled.div`
+position: fixed;
+top:0;
+right:0;
+left: 0;
+background-color: white;
 border-bottom: 0.2em #5170ff ridge ;
 height: 20vh;
 display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 0 15px;
-z-index: 1;
+z-index: 100;
 & h1{
     justify-content: center;
     margin: 50px;

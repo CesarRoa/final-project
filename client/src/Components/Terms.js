@@ -129,7 +129,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 span{
-    font-size: 15px;
+font-size: 15px;
 font-weight: bold;
 font-style: italic;
 color: #4B0082;
@@ -139,18 +139,19 @@ text-align: center;
 color: #333;
 }
 h3 {
-margin-top: 20px;
+margin-top: 10px;
 color: #444;
 }
 p {
-margin: 10px 0;
+margin: 5px 0;
 color: #555;
 }
 `
 const Div = styled.div`
-max-width:800px;
+font-size: 14px;
+max-width:900px;
 margin: 0 auto;
-padding: 20px;
+padding: 10px;
 background-color: #f5f5f5;
 border-radius: 8px;
 `

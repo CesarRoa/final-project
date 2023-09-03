@@ -23,7 +23,6 @@ const Search = () =>{
 export default Search;
 
 const Div = styled.div`
-border: red dashed 1px;
 `
 
 const Form = styled.form`
