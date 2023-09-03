@@ -100,6 +100,7 @@ const Form = ({setForm}) => {
                     </p>
                     <input
                         ref={userRef}
+                        autoComplete="off"
                         type="text"
                         id="name"
                         name="name"
@@ -118,7 +119,7 @@ const Form = ({setForm}) => {
                     </p>
                     <input
                         type="text"
-                        
+                        autoComplete="off"
                         id="amount"
                         name="amount"
                         onChange={(e)=>{
@@ -136,6 +137,7 @@ const Form = ({setForm}) => {
                     </p>
                     <label>
                     <input
+                    autoComplete="off"
                     type="radio"
                     value="active"
                     name="tagGroup"

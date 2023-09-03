@@ -82,6 +82,7 @@ return (
                         New Amount
                     </label>
                     <input
+                    autoComplete="off"
                     type="number"
                     id="newAmount"
                     name="newAmount"

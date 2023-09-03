@@ -66,6 +66,7 @@ return(
                         Username
                     </label>
                     <input
+                    autoComplete="off"
                     type="text"
                     id="username"
                     ref={userRef}
@@ -82,6 +83,7 @@ return(
                         Password
                     </label>
                     <input
+                    autoComplete="off"
                     type="password"
                     id="password"
                     name="password"
@@ -130,7 +132,7 @@ export default Signin;
 
 const Wrapper = styled.div`
 position: relative;
-top: 150px;
+top: 23vh;
 height: 70vh;
 text-align: center;
 display: flex;

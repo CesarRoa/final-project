@@ -313,9 +313,8 @@ const StyledCell = styled.td`
 
 const StyledEdit = styled(({ isEditing, ...rest }) => <LuEdit3 {...rest} />)`
     font-size: 24px; 
-    border: 1px solid red;
     color: blue;
     &:hover {
-        color: green;
+        color: red;
     }
 `;
