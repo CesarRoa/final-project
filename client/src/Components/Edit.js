@@ -142,17 +142,19 @@ export default Edit
 
 const Wrapper = styled.div`
 position: fixed;
-z-index: 1;
+top: 22vh;
 left:0;
-top: 0;
+bottom: 10vh;
 width: 100%;
 height: 100%;
+z-index: 1000;
 display: flex;
 align-items: center;
 justify-content: center;
 background-color: rgba(0,0,0,0.4);
 `
 const Div = styled.div`
+position: absolute;
 display:flex;
 flex-direction: column;
 border-radius:25px;

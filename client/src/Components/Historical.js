@@ -231,8 +231,18 @@ const Historical = ({user}) =>{
         </>
         }
         <button onClick={()=>{setForm(true)}}>Add Entry</button>
-        {form && <Form setForm = {()=>{setForm(false)}}/>}
-        {edit && <Edit rowData={editedRowValues} setEdit={() => { setEdit(false); }} FetchLatestData = {FetchLatestData}/>}
+        <>
+        {form && 
+        <div className="hidden">
+        <Form setForm = {()=>{setForm(false)}}/>
+        </div>
+        }
+        {edit && 
+        <div className="hidden">
+            <Edit rowData={editedRowValues} setEdit={() => { setEdit(false); }} FetchLatestData = {FetchLatestData}/>
+        </div>
+        }
+        </>
     </Div>
 );
 };
@@ -240,6 +250,8 @@ export default Historical;
 
 const Div = styled.div`
 position: relative;
+padding-top: 20vh;
+padding-bottom: 9vh;
 display: flex;
 flex-direction:column;
 justify-content: center;
@@ -263,10 +275,14 @@ padding-bottom: 11vh;
 &>button{
     margin-top: 20px;
 }
+&>.hidden{
+    position:fixed;
+    top: 22vh;
+    z-index:200;
+}
 `
 
 const StyledTable = styled.table`
-    position: relative;
     width: 80%;
     border-collapse: collapse;
 `;

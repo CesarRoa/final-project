@@ -12,7 +12,7 @@ const Contact = ({}) =>{
 export default Contact;
 
 const Div = styled.div`
-border: red solid 1px;
-height: 70vh;
+position: relative;
+top: 22vh;
 text-align: center;
 `

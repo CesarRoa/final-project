@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { useState, useEffect, useContext} from "react";
+import { useState, useEffect, useContext, useRef} from "react";
 import { UserContext } from "./Context";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; 
@@ -8,6 +8,12 @@ import {FetchNewEntry, FetchLatestData} from "./Fetch/handlers"
 const Form = ({setForm}) => {
     const {user, setUser} =useContext(UserContext)
     const username = user.data.profile.username
+
+    const userRef = useRef();
+
+    useEffect(()=>{
+        userRef.current.focus();
+    },[]);
 
     let initialState = {
         date: null,
@@ -93,6 +99,7 @@ const Form = ({setForm}) => {
                         Name:
                     </p>
                     <input
+                        ref={userRef}
                         type="text"
                         id="name"
                         name="name"
@@ -166,22 +173,24 @@ export default Form
 
 const Wrapper = styled.div`
 position: fixed;
-z-index: 1;
+top: 22vh;
 left:0;
-top: 0;
+bottom: 10vh;
 width: 100%;
 height: 100%;
+z-index: 1000;
 display: flex;
 align-items: center;
 justify-content: center;
 background-color: rgba(0,0,0,0.4);
 `
 const Div = styled.div`
+position: absolute;
 display:flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-border-radius:5px;
+border-radius:25px;
 padding: 2rem;
 background-color: white;
 width: 25em;
